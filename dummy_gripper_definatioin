@@ -1,0 +1,42 @@
+  <link
+    name="gripper_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+         <box
+	       size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+         <box
+	       size="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="gripper_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="pt2_link" />
+    <child
+      link="gripper_link" />
+  </joint>
+
+
+//another
+
+<link name="gripper_link"/>
+    <joint name="gripper_joint" type="fixed">
+        <origin xyz="0.08 0 0" rpy="0 0 0" />
+        <parent link="pt2_link" />
+        <child link="gripper_link" />
+    </joint>
