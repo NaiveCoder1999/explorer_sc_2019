@@ -29,7 +29,7 @@ ExplorerTeleop::ExplorerTeleop():
     angular_left_right(joy_msg->left_right),
     
     // 机械臂相关
-    //机械臂半自动化控制末端执行器，待实现
+    //机械臂moveit解算与控制，待实现
     arm_moveit_up_down(joy_msg->up_down),
     arm_moveit_left_right(joy_msg->left_right),
     //arm_moveit_back(joy_msg->right_axes_up_down),
@@ -209,8 +209,6 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy) {
                 paw_move_msg.data = joy_msg->askForAxes(paws_control_open_close) * arm_camera_scale;
             }
         }
-        
-        //爪子开合
 
         if (joy_msg->askForButton(arm_reset_button)) {
             ROS_INFO("arm reset");
