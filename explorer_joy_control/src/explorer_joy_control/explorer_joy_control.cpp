@@ -73,8 +73,8 @@ ExplorerTeleop::ExplorerTeleop():
 
     vel_pub = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
 
-    //vice_wheel_reset_pub = nh_.advertise<explorer_msgs::explorer_vice_reset>("explorer_vice_wheel_reset", 1);
     //vice_change = nh_.subscribe<std_msgs::Float32>("vice_speed_change", 2, &ExplorerTeleop::vice_wheel_speed_change, this);
+    //vice_wheel_reset_pub = nh_.advertise<explorer_msgs::explorer_vice_reset>("explorer_vice_wheel_reset", 1);//副履带位置重置信号
     //vice_wheel_pub = nh_.advertise<explorer_msgs::explorer_vice_wheel>("explorer_vice_wheel", 1);
     
     arm_pub = nh_.advertise<explorer_msgs::explorer_moveit_paw>("explorer_moveit_paw", 1);
@@ -122,21 +122,49 @@ ExplorerTeleop::~ExplorerTeleop() {
 void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy) {
     joy_msg->getMessage(joy);
     messageClean();
+    /*if(joy_msg->askForButton(basic_mode_button)){
+        if(joy_msg->askForButton(vice_wheel_mode_button)){
+            if(std::fabs(joy_msg->askForAxes(left_back_vice_wheel_up_down) )> 10e-6) {//左后副履带单独移动
+                vice_wheel_publisher.back_left_wheel_angular = -(joy_msg->askForAxes(left_back_vice_wheel_up_down)) * vice_whell_;
+            }
+            if(std::fabs(joy_msg->askForAxes(right_back_vice_wheel_up_down) )> 10e-6) {//右后副履带单独移动
+                vice_wheel_publisher.back_right_wheel_angular = -(joy_msg->askForAxes(right_back_vice_wheel_up_down)) * vice_whell_;
+            }
+            if(std::fabs(joy_msg->askForAxes(front_vice_wheel_up_down)) > 10e-6){
+                vice_wheel_publisher.front_left_wheel_angular = vice_wheel_publisher.front_right_wheel_angular = 
+                           - (joy_msg->askForAxes(front_vice_wheel_up_down)) * vice_whell_;//前履带全部上下移动
+            }
+
+            //前履带全部上下移动    
+            if(std::fabs(joy_msg->askForButton(back_vice_wheel_up)-joy_msg->askForButton(back_vice_wheel_down)) > 10e-6 )
+                vice_wheel_publisher.back_right_wheel_angular = vice_wheel_publisher.back_left_wheel_angular = 
+                            -(joy_msg->askForButton(back_vice_wheel_up) - joy_msg->askForButton(back_vice_wheel_down)) * vice_whell_;
+            /* if (std::fabs(joy_msg->askForAxes(front_vice_wheel_up_down)) < 10e-6 &&
+                std::fabs(joy_msg->askForButton(back_vice_wheel_up)-joy_msg->askForButton(back_vice_wheel_down)) < 10e-6) {
+                vice_reset_publisher.front_vice_wheel_reset = joy_msg->askForButton(front_vice_wheel_parallel);
+                vice_reset_publisher.back_vice_wheel_reset  = joy_msg->askForButton(back_vice_wheel_parallel); 
+            }
+        }
+    else*/
+
     if(joy_msg->askForButton(basic_mode_button)){ //运动模式
 
         if (joy_msg->askForButton(full_speed_button)) { //速度调节按钮
             l_scale     =    l_scale_full;
              a_scale     =    a_scale_full;
+             //vice_scale  =    vice_scale_full;
         }
 
         if (joy_msg->askForButton(mid_speed_button)) { //速度调节按钮
             l_scale     =    l_scale_mid;
              a_scale     =    a_scale_mid;
+             //vice_scale  =    vice_scale_mid;
         }
 
         if (joy_msg->askForButton(slow_speed_button)) { //速度调节按钮
             l_scale     =    l_scale_slow;
              a_scale     =    a_scale_slow;
+             //vice_scale  =    vice_scale_mid;
         }
 
         //重启底盘，手柄数字4,TODO??
@@ -178,8 +206,8 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy) {
                 arm_driect_publisher.twist.angular.y = -arm_camera_scale * joy_msg->askForAxes(camera_control_left_right);//旋转
             }
 
-            if (std::fabs(joy_msg->askForAxes(paw_turn_left_right)) > 10e-6) {//旋转
-                arm_driect_publisher.twist.angular.z = -joy_msg->askForAxes(paw_turn_left_right) * arm_camera_scale ;
+            if (std::fabs(joy_msg->askForAxes(paw_turn_left_right)) > 10e-6) {
+                arm_driect_publisher.twist.angular.z = -joy_msg->askForAxes(paw_turn_left_right) * arm_camera_scale ;//旋转
             }
             if(std::fabs(joy_msg->askForAxes(paws_control_open_close)) > 10e-6){
                 paw_move_msg.data = joy_msg->askForAxes(paws_control_open_close) * arm_camera_scale;
@@ -239,7 +267,7 @@ void ExplorerTeleop::publishControl() {
 
         if (vel_publisher == vel_empty) {
             vel_pub.publish(vel_empty1);
-            ROS_INFO("publish zero vel");
+            ROS_INFO("publish vel zero");
         }
         last_vel_published = vel_publisher;
         
@@ -251,7 +279,7 @@ void ExplorerTeleop::publishControl() {
         vice_wheel_pub.publish(vice_wheel_publisher);
 
         if (vice_wheel_publisher == vice_empty) {
-            ROS_INFO("publish zero vice wheel");
+            ROS_INFO("publish vice wheel zero");
         }
 
         last_vice_wheel_published = vice_wheel_publisher;
@@ -266,7 +294,7 @@ void ExplorerTeleop::publishControl() {
         arm_pub.publish(arm_moveit_publisher);
 
         if (arm_moveit_publisher == arm_empty) {
-            ROS_INFO("publish arm zero0.0.0.0.");
+            ROS_INFO("publish arm zero 0.0.0.0.");
         }
 
         last_arm_moveit_published = arm_moveit_publisher;
@@ -295,7 +323,7 @@ void ExplorerTeleop::publishControl() {
         vice_wheel_reset_pub.publish(vice_reset_publisher);
 
         if (vice_reset_publisher == reset_empty) {
-            ROS_INFO("vice wheel reset stop");
+            ROS_INFO("vice wheel reset");
         }
 
         last_vice_reset_published = vice_reset_publisher;

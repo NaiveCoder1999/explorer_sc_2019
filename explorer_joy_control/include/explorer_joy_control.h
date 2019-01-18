@@ -79,7 +79,7 @@ private:
     geometry_msgs::Twist vel_publisher, last_vel_published;
     // 车辆速度信息发送器
     ros::Publisher vel_pub;
-    // 用于在底盘出问题滴滴响时从先启动底盘
+    // 用于在底盘出问题滴滴响时重新启动底盘
     int relive;
     // 副履带调整指令
     /*
