@@ -99,8 +99,8 @@ private:
     // 机械臂相关
     // 机械臂控制指令
     int arm_control_button;
-    // 机械臂直接控制指令
-    int arm_driect_control_button;
+    // 机械臂半自主解算控制指令
+    int arm_moveit_control_button;
     // 机械臂移动信息
     // 解算控制
     explorer_msgs::explorer_moveit_paw last_arm_moveit_published, arm_moveit_publisher;
@@ -113,7 +113,7 @@ private:
     int arm_moveit_back;
     int arm_paw_rotateleft,arm_paw_rotateright;
     // 直接控制
-    geometry_msgs::TwistStamped last_arm_driect_published, arm_driect_publisher;  
+    geometry_msgs::TwistStamped last_arm_direct_published, arm_direct_publisher;  
     int arm_control_forward_back;
     int arm_control_up_down;
     int arm_control_left_right;
@@ -133,13 +133,13 @@ private:
     //机械臂moveit移动参数
     double arm_scale_moveit;
     double arm_scale_moveit1;
-    double arm_scale_first;
+    double arm_scale_direct;
     // 机械臂视角转动速度参数
     double arm_camera_scale;
     // 机械臂移动信息发布器(带有运动解算)
     ros::Publisher arm_pub;
     // 机械臂移动信息发布器(explorer_arm)
-    ros::Publisher arm_driect_pub;
+    ros::Publisher arm_direct_pub;
     // 机械臂复位信息发布器
     ros::Publisher reset_pub;
     // 爪子开合信息发布器
