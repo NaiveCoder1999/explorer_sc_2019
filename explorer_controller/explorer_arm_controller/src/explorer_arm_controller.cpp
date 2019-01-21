@@ -25,6 +25,7 @@ bool ArmController::init(hardware_interface::PositionJointInterface *joint_handl
     this->state_sub_  = controller_nh.subscribe("/explorer_arm_direct", 10, &ArmController::jointStateSub, this);
     this->reset_sub_  = controller_nh.subscribe("/explorer_reset", 10, &ArmController::resetStateSub, this);
     this->paw_sub_    = controller_nh.subscribe("/explorer_paw", 10, &ArmController::pawStateSub   , this);
+    //TODO:change the topic name remap??
     this->moveit_sub_ = controller_nh.subscribe("/explorer_moveit_listener/explorer_moveit_joint", 50, &ArmController::moveitSub, this);
     this->yuntai_sub_ = controller_nh.subscribe("/explorer_serial_data/19",10,&ArmController::yuntaisub,this);
     //this->imu_pub_ = controller_nh.advertise<sensor_msgs::Imu>("imu", 1);

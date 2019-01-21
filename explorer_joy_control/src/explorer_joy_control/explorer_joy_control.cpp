@@ -141,7 +141,7 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
             if(std::fabs(joy_msg->askForButton(back_vice_wheel_up)-joy_msg->askForButton(back_vice_wheel_down)) > 10e-6 )
                 vice_wheel_publisher.back_right_wheel_angular = vice_wheel_publisher.back_left_wheel_angular = 
                             -(joy_msg->askForButton(back_vice_wheel_up) - joy_msg->askForButton(back_vice_wheel_down)) * vice_whell_;
-            /* if (std::fabs(joy_msg->askForAxes(front_vice_wheel_up_down)) < 10e-6 &&
+             if (std::fabs(joy_msg->askForAxes(front_vice_wheel_up_down)) < 10e-6 &&
                 std::fabs(joy_msg->askForButton(back_vice_wheel_up)-joy_msg->askForButton(back_vice_wheel_down)) < 10e-6) {
                 vice_reset_publisher.front_vice_wheel_reset = joy_msg->askForButton(front_vice_wheel_parallel);
                 vice_reset_publisher.back_vice_wheel_reset  = joy_msg->askForButton(back_vice_wheel_parallel); 
