@@ -97,7 +97,10 @@ public:
     static int getAxesListSize() {
         return 8;
     }
-
+    /**
+     * 以下处理函数中，askForButton返回值均为正数1,askForAxes返回值有正有负
+     * 
+     * */
     void getMessage(sensor_msgs::Joy::ConstPtr msg) {
         // 获取joy消息后进行处理
         button.at(L1) = msg->buttons[_L1];
