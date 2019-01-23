@@ -1,4 +1,3 @@
-
 //author : rescuer liao
 //date : 2015-4-20
 
@@ -38,9 +37,9 @@ bool DiffDriveController::init(hardware_interface::VelocityJointInterface *hw,
     controller_nh.param("wheel_separation", wheel_separation_, 0.4) ;
     controller_nh.param("time_out" , cmd_vel_timeout_ , 2.0) ;
     // 读取车长度
-    controller_nh.param("length" , car_length, 0.4/*这个数字是随便填的,请根据小车实际填写*/);
+    controller_nh.param("length" , car_length, 0.4);/*这个数字是随便填的,请根据小车实际填写*/
     // 读取车宽度
-    controller_nh.param("width" , car_width, 0.4/*这个数字是随便填的,请根据小车实际填写*/);
+    controller_nh.param("width" , car_width, 0.4);/*这个数字是随便填的,请根据小车实际填写*/
     // 生成小车原地自转的参数
     raw_param = 1.0;
 

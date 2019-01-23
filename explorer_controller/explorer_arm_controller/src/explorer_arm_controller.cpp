@@ -24,10 +24,10 @@ bool ArmController::init(hardware_interface::PositionJointInterface *joint_handl
 
     this->state_sub_  = controller_nh.subscribe("/explorer_arm_direct", 10, &ArmController::jointStateSub, this);
     this->reset_sub_  = controller_nh.subscribe("/explorer_reset", 10, &ArmController::resetStateSub, this);
-    this->paw_sub_    = controller_nh.subscribe("/explorer_paw", 10, &ArmController::pawStateSub   , this);
+    this->gripper_sub_    = controller_nh.subscribe("/explorer_gripper", 10, &ArmController::gripperStateSub   , this);
     //TODO:change the topic name remap??
     this->moveit_sub_ = controller_nh.subscribe("/explorer_moveit_listener/explorer_moveit_joint", 50, &ArmController::moveitSub, this);
-    this->yuntai_sub_ = controller_nh.subscribe("/explorer_serial_data/19",10,&ArmController::yuntaisub,this);
+    this->yuntai_sub_ = controller_nh.subscribe("/explorer_serial_data/19",10,&ArmController::yuntaiSub,this);
     //this->imu_pub_ = controller_nh.advertise<sensor_msgs::Imu>("imu", 1);
     ROS_ERROR("arm init successed");
     return true;
@@ -42,7 +42,6 @@ void ArmController::update(const ros::Time &time, const ros::Duration &period) {
     front_time = now_time;
 
     // 显示所有机械臂的位置,如果机械臂的位置达到限制,标红
-    // 为了显示顺序,map遍历没有采用迭代器
     for (auto name : arm_name) {
         if (joint_map[name]->moveWillDanger()) {
             ROS_ERROR_STREAM("arm " << name << " :\t" << joint_map[name]->getNowPose());
@@ -75,13 +74,12 @@ void ArmController::update(const ros::Time &time, const ros::Duration &period) {
         return;
     }
 
-
     // 建议对map的遍历使用iterator保证效率
     for (auto it : joint_map) {
         it.second->moveToAim(timep);
     }
-
 }
+
 void ArmController::jointStateSub(const geometry_msgs::TwistStamped &msg) {
     if (msg.twist.linear.x != 0 || msg.twist.linear.y != 0 || msg.twist.linear.z != 0 ||
         msg.twist.angular.x != 0 || msg.twist.angular.y != 0 || msg.twist.angular.z != 0) {
@@ -89,24 +87,25 @@ void ArmController::jointStateSub(const geometry_msgs::TwistStamped &msg) {
             reset_queue.pop();
         }
     }
-    joint_map["arm1_bearing_joint"  ]->setAim(joint_map["arm1_bearing_joint" ]->getNowPose()//整体旋转
+
+    joint_map["arm1_bearing_joint"  ]->setAim(joint_map["arm1_bearing_joint"]->getNowPose()//整体旋转
                                               + msg.twist.linear.y);
-    joint_map["arm2_arm1_joint"     ]->setAim(joint_map["arm2_arm1_joint"    ]->getNowPose()//整体上下
+    joint_map["arm2_arm1_joint"     ]->setAim(joint_map["arm2_arm1_joint"]->getNowPose()//整体上下
                                                + msg.twist.linear.x);
-    joint_map["arm3_arm2_joint"     ]->setAim(joint_map["arm3_arm2_joint"    ]->getNowPose()//小臂上下
+    joint_map["arm3_arm2_joint"     ]->setAim(joint_map["arm3_arm2_joint"]->getNowPose()//小臂上下
                                                 - msg.twist.linear.z);
 
-    joint_map["pt1_arm_joint"       ]->setAim(joint_map["pt1_arm_joint"      ]->getNowPose()//第一轴向
+    joint_map["pt1_arm_joint"       ]->setAim(joint_map["pt1_arm_joint"]->getNowPose()//第一轴向
                                               - msg.twist.angular.y);
-    joint_map["pt2_pt1_joint"       ]->setAim(joint_map["pt2_pt1_joint"      ]->getNowPose()//摆动
+    joint_map["pt2_pt1_joint"       ]->setAim(joint_map["pt2_pt1_joint"]->getNowPose()//摆动
                                               - msg.twist.angular.x);
-    joint_map["rotate_joint"        ]->setAim(joint_map["rotate_joint"       ]->getNowPose()//转动，转爪子
+    joint_map["rotate_joint"        ]->setAim(joint_map["rotate_joint"]->getNowPose()//转动，转爪子
                                               + msg.twist.angular.z);
 }
 
-void ArmController::pawStateSub(const std_msgs::Float32 &ptr) {
+void ArmController::gripperStateSub(const std_msgs::Float32 &ptr) {
     double static const cnt = 0.07;
-    joint_map["paw"]->setAim(joint_map["paw"]->getNowPose() + ptr.data);
+    joint_map["gripper_joint"]->setAim(joint_map["gripper_joint"]->getNowPose() + ptr.data);
 }
 void ArmController::resetStateSub(const explorer_msgs::explorer_reset &ptr) {
     ROS_INFO("reset pub");
@@ -138,7 +137,7 @@ void ArmController::resetStateSub(const explorer_msgs::explorer_reset &ptr) {
             queue.push_back(std::make_pair(std::string("pt1_arm_joint"), joint_map["pt1_arm_joint"]->getNowPose()));
             queue.push_back(std::make_pair(std::string("pt2_pt1_joint"), joint_map["pt2_pt1_joint"]->getNowPose()));
             queue.push_back(std::make_pair(std::string("rotate_joint"), joint_map["rotate_joint"]->getNowPose()));
-            queue.push_back(std::make_pair(std::string("paw"), joint_map["paw"]->getNowPose()));
+            queue.push_back(std::make_pair(std::string("gripper_joint"), joint_map["gripper_joint"]->getNowPose()));
             reset_queue.push(queue);
 
             queue.clear();
@@ -154,7 +153,7 @@ void ArmController::resetStateSub(const explorer_msgs::explorer_reset &ptr) {
         }
     } else if (ptr.reset_paws) {
         joint_map["rotate_joint"]->readyForResetPose();
-        joint_map["paw"]->setAim(0.0);
+        joint_map["gripper_joint"]->setAim(1.090);
     }
 }
 
@@ -180,7 +179,7 @@ void ArmController::moveitSub(const explorer_msgs::explorer_moveit_values &ptr) 
                                               + ptr.values[5] );
 }
 
-void ArmController::yuntaisub(explorer_msgs::explorer_low_level_data msg){
+void ArmController::yuntaiSub(explorer_msgs::explorer_low_level_data msg){
     joint_map["joint_front_back"] ->setAim(-msg.can_serial_data_2 * 3.1415926 /180);
     joint_map["robot_left_right"] ->setAim(-msg.can_serial_data_1 * 3.1415926 /180);
     //向上传入的四元数

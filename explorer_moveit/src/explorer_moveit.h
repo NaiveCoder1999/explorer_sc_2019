@@ -9,7 +9,7 @@
 #include <moveit/kinematic_constraints/utils.h>
 #include <eigen_conversions/eigen_msg.h>
 #include <vector>
-#include <explorer_msgs/explorer_moveit_paw.h>
+#include <explorer_msgs/explorer_moveit_gripper.h>
 #include <geometry_msgs/Pose.h>
 #include <explorer_msgs/explorer_moveit_values.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
@@ -28,7 +28,7 @@ public:
     explorer_moveit(ros::NodeHandle node);
     ~explorer_moveit();
 protected:
-    void arm_callback(explorer_msgs::explorer_moveit_paw );//接受消息的回调函数
+    void arm_callback(explorer_msgs::explorer_moveit_gripper );//接受消息的回调函数
     bool getNameList(ros::NodeHandle controller_nh,  const std::string name_param ,  std::vector<std::string> &names);
     void arm_reset(explorer_msgs::explorer_reset);
 private:

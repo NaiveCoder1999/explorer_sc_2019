@@ -4,67 +4,67 @@ using namespace std;
 
 ExplorerTeleop::ExplorerTeleop() : ph_("~"),
 
-                                   basic_mode_button(joy_msg->L1),
-                                   // 速度切换按钮，可切换三挡
-                                   full_speed_button(joy_msg->button3), mid_speed_button(joy_msg->button2), slow_speed_button(joy_msg->button1),
-                                   //speed_front_back(joy_msg->up_down), speed_left_right(joy_msg->left_right),
-                                   // 副履带简易控制指令
-                                   /*front_vice_wheel_up_down(joy_msg->up_down), back_vice_wheel_up(joy_msg->button1),back_vice_wheel_down(joy_msg->button3),
+    basic_mode_button(joy_msg->L1),
+    // 速度切换按钮，可切换三挡
+    full_speed_button(joy_msg->button3), mid_speed_button(joy_msg->button2), slow_speed_button(joy_msg->button1),
+    //speed_front_back(joy_msg->up_down), speed_left_right(joy_msg->left_right),
+    // 副履带简易控制指令
+    /*front_vice_wheel_up_down(joy_msg->up_down), back_vice_wheel_up(joy_msg->button1),back_vice_wheel_down(joy_msg->button3),
     right_front_vice_wheel_up_down(joy_msg->right_axes_up_down),
     left_front_vice_wheel_up_down(joy_msg->left_axes_up_down),
     right_back_vice_wheel_up_down(joy_msg->right_axes_up_down),
     left_back_vice_wheel_up_down(joy_msg->left_axes_up_down),
     */
-
-                                   // 副履带平行指令
-                                   /*front_vice_wheel_parallel(joy_msg->button2),  back_vice_wheel_parallel(joy_msg->button4),
+    // 副履带平行指令
+    /*front_vice_wheel_parallel(joy_msg->button2),  back_vice_wheel_parallel(joy_msg->button4),
     vice_wheel_mode_button(joy_msg->L2),*/
-                                   // 车辆前进后退指令
+    // 车辆前进后退指令
 
-                                   // 用于重新开启底盘,前进与左右旋转，因更换轮子，左右平移已废弃
-                                   relive(joy_msg->button4),
-                                   linear_front_back(joy_msg->up_down),
-                                   angular_left_right(joy_msg->left_right),
+    // 用于重新开启底盘,前进与左右旋转，因更换轮子，左右平移已废弃
+    relive(joy_msg->button4),
+    linear_front_back(joy_msg->up_down),
+    angular_left_right(joy_msg->left_right),
 
-                                   // 机械臂相关
-                                   //机械臂moveit解算与控制，待实现
-                                   arm_moveit_up_down(joy_msg->up_down),
-                                   arm_moveit_left_right(joy_msg->left_right),
-                                   //arm_moveit_back(joy_msg->right_axes_up_down),
-                                   arm_moveit_forward(joy_msg->left_axes_up_down),
-                                   arm_paw_moveit_left_right(joy_msg->left_axes_left_right),
-                                   arm_paw_moveit_up_down(joy_msg->right_axes_up_down),
-                                   arm_paw_rotateleft(joy_msg->right_axes_left_right),
-                                   //arm_paw_rotateright(joy_msg ->button2),
+    // 机械臂相关
+    //机械臂moveit解算与控制，待实现
+    arm_moveit_up_down(joy_msg->up_down),
+    arm_moveit_left_right(joy_msg->left_right),
+    //arm_moveit_back(joy_msg->right_axes_up_down),
+    arm_moveit_forward(joy_msg->left_axes_up_down),
+    arm_paw_moveit_left_right(joy_msg->left_axes_left_right),
+    arm_paw_moveit_up_down(joy_msg->right_axes_up_down),
+    arm_paw_rotateleft(joy_msg->right_axes_left_right),
+    //arm_paw_rotateright(joy_msg ->button2),
 
-                                   // 对应机械臂控制按钮
-                                   arm_control_button(joy_msg->R1),
-                                   // 机械臂直接控制
-                                   arm_moveit_control_button(joy_msg->R2),
-                                   // 机械臂位置移动指令
-                                   //机械臂整体
-                                   arm_control_forward_back(joy_msg->left_axes_up_down), //小臂的移动
-                                   arm_control_up_down(joy_msg->up_down),                //大臂上下
-                                   arm_control_left_right(joy_msg->left_right),          //大臂左右
-                                   // 机械臂视角转动指令
-                                   camera_control_up_down(-joy_msg->right_axes_up_down),     //第一个摆动
-                                   camera_control_left_right(joy_msg->left_axes_left_right), //第一个旋转
-                                   // 机械臂复位指令(依照设定,包括视角复位)
-                                   arm_reset_button(joy_msg->right_axes_button),
-                                   // 视角复位指令
-                                   camera_reset_button(joy_msg->left_axes_button),
-                                   // 爪子开合指令
-                                   paws_control_open_close(joy_msg->right_button_left_right),
-                                   // 爪子旋转指令
-                                   paw_turn_left_right(joy_msg->right_axes_left_right),
-                                   // 机械臂移动速度参数，更换舵机电机时要根据实际效果调整此处及yaml文件
-                                   arm_scale(0.30),
-                                   // 机械臂视角转动速度参数
-                                   arm_camera_scale(0.07),
-                                   arm_scale_moveit(0.004),
-                                   arm_scale_moveit1(0.03),
-                                   vice_whell_(2.5),
-                                   arm_scale_direct(0.30)
+    // 对应机械臂控制按钮
+    arm_control_button(joy_msg->R1),
+    // 机械臂直接控制
+    arm_moveit_control_button(joy_msg->R2),
+    // 机械臂位置移动指令
+    //机械臂整体
+    arm_control_forward_back(joy_msg->left_axes_up_down), //小臂的移动
+    arm_control_up_down(joy_msg->up_down),                //大臂上下
+    arm_control_left_right(joy_msg->left_right),          //大臂左右
+    // 机械臂视角转动指令
+    camera_control_up_down(-joy_msg->right_axes_up_down),     //第一个摆动
+    camera_control_left_right(joy_msg->left_axes_left_right), //第一个旋转
+    // 机械臂复位指令(依照设定,包括视角复位)
+    arm_reset_button(joy_msg->right_axes_button),
+    // 视角复位指令
+    camera_reset_button(joy_msg->left_axes_button),
+    // 爪子开合指令
+    paws_control_open_close(joy_msg->right_button_left_right),
+    // 爪子旋转指令
+    paw_turn_left_right(joy_msg->right_axes_left_right),
+    // 机械臂移动速度参数，更换舵机电机时要根据实际效果调整此处及yaml文件
+    arm_scale(2.5),
+    arm_scale_direct(2.5), //单纯调大数值对增加转动流畅度影响不大
+    // 机械臂视角转动速度参数
+    arm_camera_scale(0.07),
+    arm_scale_moveit(0.004), //TODO:测试时待调整
+    arm_scale_moveit1(0.03),
+    vice_whell_(2.5)
+    
 {
     joy_msg = new autoJoyExplainer();
     joy_sub = nh_.subscribe<sensor_msgs::Joy>("joy", 2, &ExplorerTeleop::joyCallback, this);
@@ -75,11 +75,11 @@ ExplorerTeleop::ExplorerTeleop() : ph_("~"),
     //vice_wheel_reset_pub = nh_.advertise<explorer_msgs::explorer_vice_reset>("explorer_vice_wheel_reset", 1);//副履带位置重置信号
     //vice_wheel_pub = nh_.advertise<explorer_msgs::explorer_vice_wheel>("explorer_vice_wheel", 1);
 
-    arm_pub = nh_.advertise<explorer_msgs::explorer_moveit_paw>("explorer_moveit_paw", 1);
-    arm_direct_pub = nh_.advertise<geometry_msgs::TwistStamped>("explorer_arm_driect", 1); //TODO: change the direct word
+    arm_pub = nh_.advertise<explorer_msgs::explorer_moveit_gripper>("explorer_moveit_gripper", 1);
+    arm_direct_pub = nh_.advertise<geometry_msgs::TwistStamped>("explorer_arm_direct", 1); 
 
-    reset_pub = nh_.advertise<explorer_msgs::explorer_reset>("explorer_reset", 1); //机械臂整体位置复原，可能废弃
-    paw_pub = nh_.advertise<std_msgs::Float32>("explorer_paw", 1);
+    reset_pub = nh_.advertise<explorer_msgs::explorer_reset>("explorer_reset", 1); //TODO:机械臂整体位置复原，可能废弃
+    gripper_pub = nh_.advertise<std_msgs::Float32>("explorer_gripper", 1);
 
     //此处调整消息发布的频率，当前为10Hz
     timer = ph_.createTimer(ros::Duration(0.1), boost::bind(&ExplorerTeleop::publishControl, this));
@@ -228,7 +228,7 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
 
             if (std::fabs(joy_msg->askForAxes(paws_control_open_close)) > 10e-6)
             { //2 4 爪子开合
-                paw_move_msg.data = joy_msg->askForAxes(paws_control_open_close) * arm_camera_scale;
+                gripper_move_msg.data = joy_msg->askForAxes(paws_control_open_close) * arm_camera_scale;
             }
         }
         else
@@ -264,7 +264,7 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
             }
             if (std::fabs(joy_msg->askForAxes(paws_control_open_close)) > 10e-6)
             {
-                paw_move_msg.data = joy_msg->askForAxes(paws_control_open_close) * arm_camera_scale;
+                gripper_move_msg.data = joy_msg->askForAxes(paws_control_open_close) * arm_camera_scale;
             }
         }
 
@@ -322,7 +322,7 @@ void ExplorerTeleop::publishControl()
         last_vice_wheel_published = vice_wheel_publisher;
     }
 
-    explorer_msgs::explorer_moveit_paw arm_empty;
+    explorer_msgs::explorer_moveit_gripper arm_empty;
     geometry_msgs::TwistStamped arm_empty1;
     /* if (arm_moveit_publisher.x != arm_empty.x || arm_moveit_publisher.y != arm_empty.y||
         arm_moveit_publisher.up_down != arm_empty.up_down || arm_moveit_publisher.left_right != arm_empty.left_right||
@@ -354,9 +354,9 @@ void ExplorerTeleop::publishControl()
 
     std_msgs::Float32 float_empty;
 
-    if (paw_move_msg != float_empty)
+    if (gripper_move_msg != float_empty)
     {
-        paw_pub.publish(paw_move_msg);
+        gripper_pub.publish(gripper_move_msg);
     }
 
     explorer_msgs::explorer_vice_reset reset_empty;
@@ -384,12 +384,12 @@ void ExplorerTeleop::messageClean()
     this->vel_publisher = vel_empty;
     explorer_msgs::explorer_vice_wheel vice_empty;
     this->vice_wheel_publisher = vice_empty;
-    explorer_msgs::explorer_moveit_paw arm_empty;
+    explorer_msgs::explorer_moveit_gripper arm_empty;
     geometry_msgs::TwistStamped arm_empty1;
     this->arm_moveit_publisher = arm_empty;
     this->arm_direct_publisher = arm_empty1;
     std_msgs::Float32 float_empty;
-    this->paw_move_msg = float_empty;
+    this->gripper_move_msg = float_empty;
     explorer_msgs::explorer_vice_reset reset_empty;
     this->vice_reset_publisher = reset_empty;
 }

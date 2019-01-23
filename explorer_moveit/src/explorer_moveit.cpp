@@ -7,7 +7,8 @@ explorer_moveit::explorer_moveit(ros::NodeHandle node):
 {
     // reference_frame = "base_link";
     // move_group.setPoseReferenceFrame(reference_frame);
-     current_posi = move_group.getCurrentPose("gripper_link");
+    current_posi = move_group.getCurrentPose("pt2_link");
+    //current_posi = move_group.getCurrentPose("gripper_link");
      //current_RPY = move_group.getCurrentRPY("gripper_link");
 
     //此处应该使用直接从moveit中读取的数据进行末端执行器的目标状态,
@@ -17,21 +18,22 @@ explorer_moveit::explorer_moveit(ros::NodeHandle node):
 
     
     //此为直接从rviz读取
-    /*
+    
      target_pose.position.x =  current_posi.pose.position.x;
      target_pose.position.y = current_posi.pose.position.y;
      target_pose.position.z = current_posi.pose.position.z;
      target_pose.orientation.x = current_posi.pose.orientation.x;
      target_pose.orientation.y = current_posi.pose.orientation.y;
      target_pose.orientation.z = current_posi.pose.orientation.z;
-     target_pose.orientation.w = current_posi.pose.orientation.w;*/
-     /*left_right = current_RPY.at(2);
+     target_pose.orientation.w = current_posi.pose.orientation.w;
+     rotate = current_RPY.at(2);
      up_down = current_RPY.at(1);
-     rotate = current_RPY.at(0);*/
+     left_right = current_RPY.at(0);
+     
+    
+    //此为直接从commender看的数据
     
     /*
-    此为直接从commender看的数据
-    */
     target_pose.position.x = -0.0694495166048;
     target_pose.position.y = -0.0210640971723;
     target_pose.position.z = 0.0895376533598;
@@ -39,21 +41,22 @@ explorer_moveit::explorer_moveit(ros::NodeHandle node):
     target_pose.orientation.y = 0.00186164533487;
     target_pose.orientation.z = -0.99999826713;
     target_pose.orientation.w = 3.67319878841e-06;
-    left_right = -3.141585307230307;
+    rotate = -3.141585307230307;
+    left_right = -0.003723292820314199;
     up_down = 2.729880697982673e-08;
-    rotate = -0.003723292820314199;
-
+    */
+    
     ROS_ERROR_NAMED("tutorial", "End effector link: %s", move_group.getEndEffectorLink().c_str());
 
    // move_group.setPlannerId("RRTConfigDefault");
-    paw_sub = nh_.subscribe<explorer_msgs::explorer_moveit_paw>("explorer_moveit_paw", 2, &explorer_moveit::arm_callback, this);
+    paw_sub = nh_.subscribe<explorer_msgs::explorer_moveit_gripper>("explorer_moveit_gripper", 2, &explorer_moveit::arm_callback, this);
     paw_reset = nh_.subscribe<explorer_msgs::explorer_reset>("explorer_reset",2,&explorer_moveit::arm_reset,this);
   }
 explorer_moveit::~explorer_moveit(){}
 //绕x为旋转
 //绕y为上下
-//绕z为左右
-void explorer_moveit::arm_callback(explorer_msgs::explorer_moveit_paw pawptr){
+//绕z为左右?
+void explorer_moveit::arm_callback(explorer_msgs::explorer_moveit_gripper pawptr){
     //先进行初始位置的再次标定，将两个模式统一
     
      /*target_pose.position.x =  current_posi.pose.position.x + pawptr.x;
@@ -97,14 +100,15 @@ void explorer_moveit::arm_reset(explorer_msgs::explorer_reset ptr){
     target_pose.orientation.y = 0.00186164533487;
     target_pose.orientation.z = -0.99999826713;
     target_pose.orientation.w = 3.67319878841e-06;
-    left_right = -3.141585307230307;
+    rotate = -3.141585307230307;
+    left_right = -0.003723292820314199;
     up_down = 2.729880697982673e-08;
-    rotate = -0.003723292820314199;
   
 }
 int main (int argc,char **argv){
   ros::init(argc, argv, "explorer_moveit");
-  ros::NodeHandle nodehandle;  
+  ros::NodeHandle nodehandle;
+  ros::AsyncSpinner spinner(2);
   explorer_moveit explorer_moveit(nodehandle);  
-  ros::spin();
+  spinner.start();  
 }

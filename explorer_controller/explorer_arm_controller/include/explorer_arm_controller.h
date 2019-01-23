@@ -46,11 +46,11 @@ private:
 
     void resetStateSub(const explorer_msgs::explorer_reset &ptr);
 
-    void pawStateSub(const std_msgs::Float32 &ptr);
+    void gripperStateSub(const std_msgs::Float32 &ptr);
 
     void moveitSub(const explorer_msgs::explorer_moveit_values &ptr);
-    void yuntaisub(explorer_msgs::explorer_low_level_data msg);
-    void pushArmResetPose();
+    void yuntaiSub(explorer_msgs::explorer_low_level_data msg);
+
 private:
     std::vector<std::string> arm_name;              // 机械臂名称列表
     std::map<std::string, joint*> joint_map;
@@ -59,7 +59,7 @@ private:
     ros::Subscriber yuntai_sub_;
     ros::Subscriber state_sub_;
     ros::Subscriber reset_sub_;
-    ros::Subscriber paw_sub_;
+    ros::Subscriber gripper_sub_;
     ros::Subscriber moveit_sub_;
     geometry_msgs::Quaternion odom_quat;
     sensor_msgs::Imu imu_;
@@ -67,7 +67,7 @@ private:
     int now_moveit_pose;
     std::queue<std::vector<std::pair<std::string, double> > > reset_queue; // 机械臂复原任务队列
 };
-//这句话将这个    类设置为插件
+//这句话将这个类设置为插件
 PLUGINLIB_EXPORT_CLASS(explorer_arm_controller::ArmController, controller_interface::ControllerBase);
 }
 

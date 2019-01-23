@@ -13,7 +13,7 @@
 #include <std_msgs/Float32.h>
 #include "explorer_joy_explainer.hpp"
 #include <sstream>
-#include <explorer_msgs/explorer_moveit_paw.h>
+#include <explorer_msgs/explorer_moveit_gripper.h>
 //#include <opencv2/highgui/highgui.hpp>    
 //#include "opencv2/core/version.hpp"
 template <typename T>
@@ -103,7 +103,7 @@ private:
     int arm_moveit_control_button;
     // 机械臂移动信息
     // 解算控制
-    explorer_msgs::explorer_moveit_paw last_arm_moveit_published, arm_moveit_publisher;
+    explorer_msgs::explorer_moveit_gripper last_arm_moveit_published, arm_moveit_publisher;
     //机械臂末端执行器位置移动
     int arm_moveit_up_down;
     int arm_moveit_left_right;
@@ -130,10 +130,10 @@ private:
     int paw_turn_left_right;
     // 机械臂移动速度参数
     double arm_scale;
+    double arm_scale_direct;
     //机械臂moveit移动参数
     double arm_scale_moveit;
     double arm_scale_moveit1;
-    double arm_scale_direct;
     // 机械臂视角转动速度参数
     double arm_camera_scale;
     // 机械臂移动信息发布器(带有运动解算)
@@ -143,9 +143,9 @@ private:
     // 机械臂复位信息发布器
     ros::Publisher reset_pub;
     // 爪子开合信息发布器
-    ros::Publisher paw_pub;
+    ros::Publisher gripper_pub;
     // 爪子开合信息
-    std_msgs::Float32 paw_move_msg;
+    std_msgs::Float32 gripper_move_msg;
 
 };
 
