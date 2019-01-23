@@ -88,7 +88,7 @@ void ArmController::jointStateSub(const geometry_msgs::TwistStamped &msg) {
         }
     }
 
-    joint_map["arm1_bearing_joint"  ]->setAim(joint_map["arm1_bearing_joint"]->getNowPose()//整体旋转
+    joint_map["arm1_bearing_joint"  ]->setAim(joint_map["arm1_bearing_joint"]->getNowPose()//整体左右
                                               + msg.twist.linear.y);
     joint_map["arm2_arm1_joint"     ]->setAim(joint_map["arm2_arm1_joint"]->getNowPose()//整体上下
                                                + msg.twist.linear.x);

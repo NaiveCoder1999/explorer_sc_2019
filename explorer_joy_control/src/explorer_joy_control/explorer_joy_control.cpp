@@ -235,36 +235,36 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
         { //直接控制
             if (std::fabs(joy_msg->askForAxes(arm_control_forward_back)) > 10e-6)
             {
-                arm_direct_publisher.twist.linear.z = -arm_scale_direct * joy_msg->askForAxes(arm_control_forward_back); //小臂上下
+                arm_direct_publisher.twist.linear.z = arm_scale_direct * joy_msg->askForAxes(arm_control_forward_back); //小臂上下arm3_arm2_joint
             }
 
             if (std::fabs(joy_msg->askForAxes(arm_control_left_right)) > 10e-6)
             {
-                arm_direct_publisher.twist.linear.y = arm_scale_direct * joy_msg->askForAxes(arm_control_left_right); //大臂左右
+                arm_direct_publisher.twist.linear.y = -arm_scale_direct * joy_msg->askForAxes(arm_control_left_right); //整体大臂左右arm1_bearing_joint
             }
 
             if (std::fabs(joy_msg->askForAxes(arm_control_up_down)) > 10e-6)
             {
-                arm_direct_publisher.twist.linear.x = arm_scale_direct * joy_msg->askForAxes(arm_control_up_down); //整体上下
+                arm_direct_publisher.twist.linear.x = arm_scale_direct * joy_msg->askForAxes(arm_control_up_down); //整体大臂上下arm2_arm1_joint
             }
 
             if (std::fabs(joy_msg->askForAxes(camera_control_up_down)) > 10e-6)
             {
-                arm_direct_publisher.twist.angular.x = -arm_camera_scale * joy_msg->askForAxes(camera_control_up_down); //摆动
+                arm_direct_publisher.twist.angular.x = -arm_camera_scale * joy_msg->askForAxes(camera_control_up_down); //爪子上下摆动pt2_pt1_joint
             }
 
             if (std::fabs(joy_msg->askForAxes(camera_control_left_right)) > 10e-6)
             {
-                arm_direct_publisher.twist.angular.y = -arm_camera_scale * joy_msg->askForAxes(camera_control_left_right); //旋转
+                arm_direct_publisher.twist.angular.y = -arm_camera_scale * joy_msg->askForAxes(camera_control_left_right); //爪子后端旋转pt1_arm_joint
             }
 
             if (std::fabs(joy_msg->askForAxes(paw_turn_left_right)) > 10e-6)
             {
-                arm_direct_publisher.twist.angular.z = -joy_msg->askForAxes(paw_turn_left_right) * arm_camera_scale; //爪子旋转
+                arm_direct_publisher.twist.angular.z = -joy_msg->askForAxes(paw_turn_left_right) * arm_camera_scale; //爪子旋转rotate_joint
             }
             if (std::fabs(joy_msg->askForAxes(paws_control_open_close)) > 10e-6)
             {
-                gripper_move_msg.data = joy_msg->askForAxes(paws_control_open_close) * arm_camera_scale;
+                gripper_move_msg.data = joy_msg->askForAxes(paws_control_open_close) * arm_camera_scale;//爪子开合gripper_joint
             }
         }
 
