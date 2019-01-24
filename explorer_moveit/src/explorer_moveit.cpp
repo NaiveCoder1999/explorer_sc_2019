@@ -7,7 +7,7 @@ explorer_moveit::explorer_moveit(ros::NodeHandle node):
 {
     reference_frame = "base_link";
     move_group.setPoseReferenceFrame(reference_frame);
-    current_posi = move_group.getCurrentPose("pt2_link");
+    //current_posi = move_group.getCurrentPose("pt2_link");
     //current_posi = move_group.getCurrentPose("gripper_link");
      //current_RPY = move_group.getCurrentRPY("gripper_link");
 
@@ -18,7 +18,7 @@ explorer_moveit::explorer_moveit(ros::NodeHandle node):
 
     
     //此为直接从rviz读取
-    
+    /*
      target_pose.position.x =  current_posi.pose.position.x;
      target_pose.position.y = current_posi.pose.position.y;
      target_pose.position.z = current_posi.pose.position.z;
@@ -29,11 +29,11 @@ explorer_moveit::explorer_moveit(ros::NodeHandle node):
      rotate = current_RPY.at(2);
      up_down = current_RPY.at(1);
      left_right = current_RPY.at(0);
-     
+     */
     
     //此为直接从commender看的数据
     
-    /*
+    
     target_pose.position.x = -0.0694495166048;
     target_pose.position.y = -0.0210640971723;
     target_pose.position.z = 0.0895376533598;
@@ -41,10 +41,11 @@ explorer_moveit::explorer_moveit(ros::NodeHandle node):
     target_pose.orientation.y = 0.00186164533487;
     target_pose.orientation.z = -0.99999826713;
     target_pose.orientation.w = 3.67319878841e-06;
-    rotate = -3.141585307230307;
-    left_right = -0.003723292820314199;
-    up_down = 2.729880697982673e-08;
-    */
+    rotate = -0.003723292820314199; //左右旋转, Roll横滚？？
+    up_down = 2.729880697982673e-08;  //上下摆动，Pitch俯仰？？
+    left_right = -3.141585307230307; //左右摆动，Yaw偏航？
+
+    
     
     ROS_ERROR_NAMED("tutorial", "End effector link: %s", move_group.getEndEffectorLink().c_str());
 
@@ -56,23 +57,23 @@ explorer_moveit::~explorer_moveit(){}
 //绕x为旋转
 //绕y为上下
 //绕z为左右?
-void explorer_moveit::arm_callback(explorer_msgs::explorer_moveit_gripper pawptr){
+void explorer_moveit::arm_callback(explorer_msgs::explorer_moveit_gripper gripperptr){
     //先进行初始位置的再次标定，将两个模式统一
     
-     /*target_pose.position.x =  current_posi.pose.position.x + pawptr.x;
-     target_pose.position.y = current_posi.pose.position.y + pawptr.y;
-     target_pose.position.z = current_posi.pose.position.z + pawptr.z;*/
-    // left_right = current_RPY[2] + pawptr.left_right;
-    // up_down = current_RPY[1] + pawptr.up_down;
-    // rotate = current_RPY[0] + pawptr.rotate;
+     /*target_pose.position.x =  current_posi.pose.position.x + gripperptr.x;
+     target_pose.position.y = current_posi.pose.position.y + gripperptr.y;
+     target_pose.position.z = current_posi.pose.position.z + gripperptr.z;*/
+    // left_right = current_RPY[2] + gripperptr.left_right;
+    // up_down = current_RPY[1] + gripperptr.up_down;
+    // rotate = current_RPY[0] + gripperptr.rotate;
 
 
-    target_pose.position.x += pawptr.x; 
-    target_pose.position.y += pawptr.y;
-    target_pose.position.z += pawptr.z;
-    left_right += pawptr.left_right;
-    up_down += pawptr.up_down;
-    rotate += pawptr.rotate;
+    target_pose.position.x += gripperptr.x; 
+    target_pose.position.y += gripperptr.y;
+    target_pose.position.z += gripperptr.z;
+    left_right += gripperptr.left_right;
+    up_down += gripperptr.up_down;
+    rotate += gripperptr.rotate;
 
     odom_quat = tf::createQuaternionMsgFromRollPitchYaw(rotate,up_down,left_right);
     ROS_ERROR_STREAM("  w:"<<odom_quat.w << "  x:"<<odom_quat.x<<"  y:"<<odom_quat.y << "  z:"<<odom_quat.z);
@@ -88,7 +89,6 @@ void explorer_moveit::arm_callback(explorer_msgs::explorer_moveit_gripper pawptr
       move_group.move();    
       ROS_ERROR("SSSSSSSSSS");
     }*/
-
     move_group.asyncMove();
 } 
 void explorer_moveit::arm_reset(explorer_msgs::explorer_reset ptr){
@@ -100,9 +100,9 @@ void explorer_moveit::arm_reset(explorer_msgs::explorer_reset ptr){
     target_pose.orientation.y = 0.00186164533487;
     target_pose.orientation.z = -0.99999826713;
     target_pose.orientation.w = 3.67319878841e-06;
-    rotate = -3.141585307230307;
-    left_right = -0.003723292820314199;
-    up_down = 2.729880697982673e-08;
+    rotate = -0.003723292820314199; //左右旋转, Roll横滚？？
+    up_down = 2.729880697982673e-08;  //上下摆动，Pitch俯仰？？
+    left_right = -3.141585307230307; //左右摆动，Yaw偏航？
   
 }
 int main (int argc,char **argv){

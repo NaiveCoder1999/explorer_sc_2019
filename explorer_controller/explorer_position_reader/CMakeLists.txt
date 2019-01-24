@@ -113,7 +113,6 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES explorer_position_reader
   CATKIN_DEPENDS controller_interface explorer_msgs explorer_robot_hardware roscpp
-  DEPENDS system_lib
 )
 
 ###########

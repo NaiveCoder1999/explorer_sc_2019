@@ -18,22 +18,22 @@ explorer_arm_controller:
 
 # 这个是机械臂的初始位置
     reset:
-      arm1_bearing_joint: 0.0
+      arm1_bearing_joint: 1.57
       arm2_arm1_joint: 0.0
       arm3_arm2_joint: 0.0
       pt1_arm_joint: 0.0 
       pt2_pt1_joint: 0.0
       rotate_joint: 0.0
-      gripper_joint: 0.0
+      gripper_joint: 1.09
       finger1_finger2_joint: 0.0
       finger2_finger3_joint: 0.0
       finger3_joint: 0.0
 # 这是机械臂的左侧位置限制
     left_limit:
-      arm1_bearing_joint: -3.14
+      arm1_bearing_joint: 0.0
       arm2_arm1_joint: 0.0
       arm3_arm2_joint: -3.14
-      pt1_arm_joint: -1.57
+      pt1_arm_joint: -1.72
       pt2_pt1_joint: -0.84 
       rotate_joint: -1.57
       gripper_joint: 0.94
@@ -45,9 +45,9 @@ explorer_arm_controller:
 # 这是机械臂的右侧位置限制
     right_limit:
       arm1_bearing_joint: 3.14
-      arm2_arm1_joint: 3.14
-      arm3_arm2_joint: 0.0
-      pt1_arm_joint: 1.57
+      arm2_arm1_joint: 2.61
+      arm3_arm2_joint: 0
+      pt1_arm_joint: 1.42
       pt2_pt1_joint: 2.3
       rotate_joint: 1.57
       gripper_joint: 1.88

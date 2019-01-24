@@ -296,14 +296,14 @@ void ExplorerHardware::pub_vel_cmd() {
     robot_drive_pub_.publish(move_message);
     move_message.low_level_id = 2;
     move_message.high_level_id = 2;
-    move_message.data.clear();
+    move_message.data.clear();//清空id1的八位数据，开始发送id2
     move_message.data.push_back(base_wheel_cmd_["right_up_wheel_base_joint"]);
     move_message.data.push_back(base_wheel_cmd_["right_down_wheel_base_joint"]);
     robot_drive_pub_.publish(move_message);
 }
 /*
  * 以下为副履带的底层数据传输函数
- * 为使得两者相对应 强制除以参宿进行设置
+ * 为使得两者相对应 强制除以参数进行设置
  */
 void ExplorerHardware::pub_vice_wheel_cmd() {
     for (auto name : vice_wheel_joint_name_) {
@@ -317,15 +317,15 @@ void ExplorerHardware::pub_vice_wheel_cmd() {
     vice_wheel_message.high_level_id = 3;
     vice_wheel_message.data.push_back(vice_wheel_cmd_["left_up_fin_base_joint"]/6);
     vice_wheel_message.data.push_back(-vice_wheel_cmd_["left_down_fin_base_joint"]/7);
-
     //    ROS_INFO("pub front vice order") ;
     robot_drive_pub_.publish(vice_wheel_message);
-
     vice_wheel_message.low_level_id = 4;
     vice_wheel_message.high_level_id = 4;
-    vice_wheel_message.data.at(0) = vice_wheel_cmd_["right_up_fin_base_joint"]/6 ;
-    vice_wheel_message.data.at(1) = -vice_wheel_cmd_["right_down_fin_base_joint"]/7;
-
+    vice_wheel_message.data.clear();//清空id3的八位数据，开始发送id4
+    vice_wheel_message.data.push_back(vice_wheel_cmd_["right_up_fin_base_joint"]/6);
+    vice_wheel_message.data.push_back(-vice_wheel_cmd_["right_down_fin_base_joint"]/7);
+    //vice_wheel_message.data.at(0) = vice_wheel_cmd_["right_up_fin_base_joint"]/6 ;
+    //vice_wheel_message.data.at(1) = -vice_wheel_cmd_["right_down_fin_base_joint"]/7;
     robot_drive_pub_.publish(vice_wheel_message);
 
 }
@@ -350,13 +350,13 @@ void ExplorerHardware::pub_arm_joint_cmd() {
     }
 
     static double last_arm1_bearing_joint = 0.0;
-
+    //发送底座左右移动信号
     if (arm_joint_cmd_["arm1_bearing_joint"] != 0.0) {
         explorer_msgs::explorer_message arm_rotate_joint_message;
         arm_rotate_joint_message.low_level_id = 5;
         arm_rotate_joint_message.high_level_id = 5;
         arm_rotate_joint_message.data.push_back(arm_joint_pos_["arm1_bearing_joint"]);
-        last_arm1_bearing_joint = 1.0;
+        last_arm1_bearing_joint = arm_joint_pos_["arm1_bearing_joint"];
         arm_joint_cmd_["arm1_bearing_joint"] = 0.0;
         robot_drive_pub_.publish(arm_rotate_joint_message);
     } /*else if (last_arm1_bearing_joint != 0.0) {
@@ -372,15 +372,15 @@ void ExplorerHardware::pub_arm_joint_cmd() {
     //last_arm1_bearing_joint = arm_joint_cmd_["arm1_bearing_joint"];
 
     static double last_arm2_arm1_joint = 0.0, last_arm3_arm2_joint = 0.0;
-
+    //发送大臂上下和小臂上下移动信号,此处改变方向最快捷
     if (arm_joint_cmd_["arm2_arm1_joint"] != 0.0 || arm_joint_cmd_["arm3_arm2_joint"] != 0.0) {
         explorer_msgs::explorer_message arm_move_joint_message;
         arm_move_joint_message.low_level_id = 6;
         arm_move_joint_message.high_level_id = 6;
         arm_move_joint_message.data.push_back(arm_joint_pos_["arm2_arm1_joint"]);
         arm_move_joint_message.data.push_back(arm_joint_pos_["arm3_arm2_joint"]/2);
-        last_arm2_arm1_joint = 1.0;
-        last_arm3_arm2_joint = 1.0;
+        last_arm2_arm1_joint = arm_joint_pos_["arm2_arm1_joint"];
+        last_arm3_arm2_joint = arm_joint_pos_["arm3_arm2_joint"]/2;
         arm_joint_cmd_["arm2_arm1_joint"] = 0.0;
         arm_joint_cmd_["arm3_arm2_joint"] = 0.0;
         robot_drive_pub_.publish(arm_move_joint_message);
@@ -396,27 +396,32 @@ void ExplorerHardware::pub_arm_joint_cmd() {
         robot_drive_pub_.publish(arm_move_joint_message);
     }*/
 
-    //last_arm2_arm1_joint = arm_joint_cmd_["arm2_arm1_joint"];
-    //last_arm3_arm2_joint = arm_joint_cmd_["arm3_arm2_joint"];
-
+    static double last_pt1_arm_joint = 0.0, last_pt2_pt1_joint = 0.0;
+    //发送爪子左右和爪子上下移动信号
     if (arm_joint_cmd_["pt1_arm_joint"] != 0.0 || arm_joint_cmd_["pt2_pt1_joint"] != 0.0) {
         explorer_msgs::explorer_message camera_move_joint_message;
         camera_move_joint_message.high_level_id = 7;
         camera_move_joint_message.low_level_id  = 7;
         camera_move_joint_message.data.push_back(arm_joint_pos_["pt1_arm_joint"]);
         camera_move_joint_message.data.push_back(-arm_joint_pos_["pt2_pt1_joint"]);
+        last_pt1_arm_joint = arm_joint_pos_["pt1_arm_joint"];
+        last_pt2_pt1_joint = -arm_joint_pos_["pt2_pt1_joint"];
         arm_joint_cmd_["pt1_arm_joint"] = 0.0;
         arm_joint_cmd_["pt2_pt1_joint"] = 0.0;
         robot_drive_pub_.publish(camera_move_joint_message);
     }
 
-    if (arm_joint_cmd_["paw"] != 0.0 || arm_joint_cmd_["rotate_joint"] != 0.0) {
+    static double last_gripper_joint = 0.0, last_rotate_joint = 0.0;
+    //发送爪子左右和爪子上下移动信号
+    if (arm_joint_cmd_["gripper_joint"] != 0.0 || arm_joint_cmd_["rotate_joint"] != 0.0) {
         explorer_msgs::explorer_message paw_move_joint_message;
         paw_move_joint_message.high_level_id = 8;
         paw_move_joint_message.low_level_id = 8;
-        paw_move_joint_message.data.push_back(arm_joint_pos_["paw"]);
+        paw_move_joint_message.data.push_back(arm_joint_pos_["gripper_joint"]);
         paw_move_joint_message.data.push_back(arm_joint_pos_["rotate_joint"]);
-        arm_joint_cmd_["paw"] = 0.0;
+        last_gripper_joint = arm_joint_pos_["gripper_joint"];
+        last_rotate_joint = arm_joint_pos_["rotate_joint"];
+        arm_joint_cmd_["gripper_joint"] = 0.0;
         arm_joint_cmd_["rotate_joint"] = 0.0;
         robot_drive_pub_.publish(paw_move_joint_message);
     }
