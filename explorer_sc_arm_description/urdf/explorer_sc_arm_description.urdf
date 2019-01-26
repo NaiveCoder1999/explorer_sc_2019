@@ -1,0 +1,918 @@
+<robot
+  name="explorer_sc_arm_description">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="8.38725949350081E-06 -2.28182795042473E-05 -0.002"
+        rpy="0 0 0" />
+      <mass
+        value="1.29696154829847" />
+      <inertia
+        ixx="0.00839947805440125"
+        ixy="4.27932542927772E-06"
+        ixz="-6.97356058924118E-19"
+        iyy="0.0193274605227349"
+        iyz="-8.81459604938603E-19"
+        izz="0.0277234800130074" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="front_back_base">
+    <inertial>
+      <origin
+        xyz="0 -3.46944695195361E-18 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.098174770424681" />
+      <inertia
+        ixx="3.5792885050665E-05"
+        ixy="0"
+        ixz="1.6944868265256E-20"
+        iyy="3.5792885050665E-05"
+        iyz="-3.54804331259052E-23"
+        izz="3.06796157577128E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/front_back_base.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/front_back_base.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_front_back"
+    type="fixed">
+    <origin
+      xyz="0.0244119960002226 0.00539021811108908 0.025"
+      rpy="6.93889390390723E-18 -1.05100847812493E-16 1.5707963267949" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_back_base" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="left_up_wheel_link">
+    <inertial>
+      <origin
+        xyz="0.00870876387834738 1.54226130000823E-05 -2.55700449977581E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.826121794411708" />
+      <inertia
+        ixx="0.00519099163146927"
+        ixy="-6.12960018275808E-07"
+        ixz="1.49528081696616E-08"
+        iyy="0.00284682541456147"
+        iyz="-3.01153060214499E-07"
+        izz="0.00284435059319059" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/left_up_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/left_up_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="left_up_wheel_base_joint"
+    type="revolute">
+    <origin
+      xyz="0.22551 -0.23931 -0.091104"
+      rpy="-7.0265E-33 1.1082E-16 -6.5165E-17" />
+    <parent
+      link="front_back_base" />
+    <child
+      link="left_up_wheel_link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="right_up_wheel_link">
+    <inertial>
+      <origin
+        xyz="0.00870876387834746 1.54226130003043E-05 -2.55700449990071E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.826121794411715" />
+      <inertia
+        ixx="0.00519099163146931"
+        ixy="-6.12960018276579E-07"
+        ixz="1.49528081688249E-08"
+        iyy="0.00284682541456149"
+        iyz="-3.01153060214495E-07"
+        izz="0.00284435059319062" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/right_up_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/right_up_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="right_up_wheel_base_joint"
+    type="revolute">
+    <origin
+      xyz="-0.25469 -0.23931 -0.091104"
+      rpy="-3.9302E-35 0 0" />
+    <parent
+      link="front_back_base" />
+    <child
+      link="right_up_wheel_link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="left_down_wheel_link">
+    <inertial>
+      <origin
+        xyz="0.00870876326608666 1.47924310675007E-05 -5.06424372227754E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.82612178476788" />
+      <inertia
+        ixx="0.00519099162848345"
+        ixy="-6.02117473244471E-07"
+        ixz="1.15802053853405E-07"
+        iyy="0.00284666020010173"
+        iyz="-6.87193740751131E-07"
+        izz="0.00284451578321366" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/left_down_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/left_down_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="left_down_wheel_base_joint"
+    type="revolute">
+    <origin
+      xyz="0.22551 0.28813 -0.091104"
+      rpy="-7.0265E-33 1.1082E-16 -6.5165E-17" />
+    <parent
+      link="front_back_base" />
+    <child
+      link="left_down_wheel_link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="right_down_wheel_link">
+    <inertial>
+      <origin
+        xyz="0.00870876300438408 1.47921874403822E-05 -5.06420416705733E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.826121790600066" />
+      <inertia
+        ixx="0.00519099164551254"
+        ixy="-6.02124665108587E-07"
+        ixz="1.15803221547188E-07"
+        iyy="0.00284666021630053"
+        iyz="-6.87193739249559E-07"
+        izz="0.00284451579941808" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/right_down_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/right_down_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="right_down_wheel_base_joint"
+    type="revolute">
+    <origin
+      xyz="-0.25469 0.28813 -0.091104"
+      rpy="-7.0265E-33 1.1082E-16 -6.5165E-17" />
+    <parent
+      link="front_back_base" />
+    <child
+      link="right_down_wheel_link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="frame_link">
+    <inertial>
+      <origin
+        xyz="-0.00888730788410459 0.0203366819685348 -0.0126291880908399"
+        rpy="0 0 0" />
+      <mass
+        value="3.26161515055018" />
+      <inertia
+        ixx="0.126291282912855"
+        ixy="-0.0003154449627657"
+        ixz="-0.00101868654302903"
+        iyy="0.0607337880926759"
+        iyz="0.000453009692812155"
+        izz="0.165446833262686" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/frame_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.6 0.6 0.6 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/frame_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="robot_left_right"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="-3.9302E-35 0 0" />
+    <parent
+      link="front_back_base" />
+    <child
+      link="frame_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="arm1_link">
+    <inertial>
+      <origin
+        xyz="0.0052335465669357 -0.00145914413559915 0.0274651726476679"
+        rpy="0 0 0" />
+      <mass
+        value="0.740834240282329" />
+      <inertia
+        ixx="0.000652966066260069"
+        ixy="-5.20526717125778E-06"
+        ixz="-0.000121877072956292"
+        iyy="0.000841866459288464"
+        iyz="1.44897375430067E-05"
+        izz="0.000656785671162585" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/arm1_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/arm1_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm1_bearing_joint"
+    type="revolute">
+    <origin
+      xyz="0.06261 -0.045588 0.045"
+      rpy="-3.9302E-35 0 0" />
+    <parent
+      link="frame_link" />
+    <child
+      link="arm1_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="arm2_link">
+    <inertial>
+      <origin
+        xyz="-0.0249935385540542 0.21625037515155 0.00630793428453136"
+        rpy="0 0 0" />
+      <mass
+        value="0.432896616493016" />
+      <inertia
+        ixx="0.00856667496257"
+        ixy="0.000240766742609219"
+        ixz="-1.40564298528354E-05"
+        iyy="0.000428467900510452"
+        iyz="-0.000390988712736793"
+        izz="0.00863962273660734" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/arm2_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/arm2_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm2_arm1_joint"
+    type="revolute">
+    <origin
+      xyz="0.02425 0 0.061"
+      rpy="-6.9389E-18 1.6633E-16 3.3897E-15" />
+    <parent
+      link="arm1_link" />
+    <child
+      link="arm2_link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-2.16"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="arm3_link">
+    <inertial>
+      <origin
+        xyz="0.0059578562318367 -0.154878612953616 -0.000605125736522938"
+        rpy="0 0 0" />
+      <mass
+        value="0.251042694943515" />
+      <inertia
+        ixx="0.00348716697186941"
+        ixy="-0.000225815391661992"
+        ixz="-9.00971751428436E-07"
+        iyy="0.000105978083565339"
+        iyz="-1.35332619943728E-05"
+        izz="0.00352040359553672" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/arm3_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/arm3_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm3_arm2_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0175 0.37413 0.065"
+      rpy="0 0 0" />
+    <parent
+      link="arm2_link" />
+    <child
+      link="arm3_link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="0"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="pt1_link">
+    <inertial>
+      <origin
+        xyz="0 -0.0101240439715932 5.55111512312578E-17"
+        rpy="0 0 0" />
+      <mass
+        value="0.0133110522817061" />
+      <inertia
+        ixx="2.50594470944606E-06"
+        ixy="1.8090208942906E-20"
+        ixz="6.92455763665459E-20"
+        iyy="7.195366856988E-06"
+        iyz="4.80095627525763E-21"
+        izz="8.79976743065138E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/pt1_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/pt1_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="pt1_arm_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0005 -0.29839 -0.011103"
+      rpy="0.0037086 1.6759E-15 -2.5288E-16" />
+    <parent
+      link="arm3_link" />
+    <child
+      link="pt1_link" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-1.72"
+      upper="1.42"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="pt2_link">
+    <inertial>
+      <origin
+        xyz="0.0284666409378878 -0.012296524956937 0.0208881619219742"
+        rpy="0 0 0" />
+      <mass
+        value="0.222075702540908" />
+      <inertia
+        ixx="0.000448658968824595"
+        ixy="3.74295966975415E-06"
+        ixz="-3.76370485964757E-06"
+        iyy="0.000237172522813216"
+        iyz="-0.000148614817626507"
+        izz="0.00025135168677074" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/pt2_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/pt2_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="pt2_pt1_joint"
+    type="revolute">
+    <origin
+      xyz="-0.02555 -0.031 0"
+      rpy="-1.0528E-14 1.3913E-14 2.3915E-17" />
+    <parent
+      link="pt1_link" />
+    <child
+      link="pt2_link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-1.81"
+      upper="0.3"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="gripper_rotate_link">
+    <inertial>
+      <origin
+        xyz="-8.56406842220103E-06 -0.033251813169419 0.00781392269582817"
+        rpy="0 0 0" />
+      <mass
+        value="0.126580619621662" />
+      <inertia
+        ixx="7.83741507963795E-05"
+        ixy="-4.70272447047957E-08"
+        ixz="-1.20878400844159E-08"
+        iyy="4.26849732289127E-05"
+        iyz="-6.47305761247518E-06"
+        izz="5.78578684503002E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/gripper_rotate_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/gripper_rotate_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rotate_joint"
+    type="revolute">
+    <origin
+      xyz="0.02985 -0.06535 0.001"
+      rpy="1.0648E-14 -3.4915E-15 -3.4915E-15" />
+    <parent
+      link="pt2_link" />
+    <child
+      link="gripper_rotate_link" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger1_link">
+    <inertial>
+      <origin
+        xyz="1.12793635542729E-10 -0.0489586901331791 0.000328193271946525"
+        rpy="0 0 0" />
+      <mass
+        value="0.0141817215051188" />
+      <inertia
+        ixx="1.27275057009474E-05"
+        ixy="6.40870905888493E-14"
+        ixz="-3.60667592864375E-13"
+        iyy="1.12154886670789E-06"
+        iyz="-2.23221813422532E-06"
+        izz="1.2480727742978E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/finger1_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.6 0.6 0.6 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/finger1_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="finger1_joint"
+    type="revolute">
+    <origin
+      xyz="-0.033775 -0.0368 0.0195"
+      rpy="3.4556E-30 -1.0472 -4.3437E-19" />
+    <parent
+      link="gripper_rotate_link" />
+    <child
+      link="finger1_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.314"
+      upper="0.1396"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger2_link">
+    <inertial>
+      <origin
+        xyz="1.38777878078145E-17 -0.0491989260888198 0.00026592383553542"
+        rpy="0 0 0" />
+      <mass
+        value="0.0142516570501078" />
+      <inertia
+        ixx="1.29061026399681E-05"
+        ixy="-5.52854885734898E-22"
+        ixz="5.7192315789071E-22"
+        iyy="1.13283292129298E-06"
+        iyz="-2.27545016132449E-06"
+        izz="1.26481195573146E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/finger2_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.6 0.6 0.6 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/finger2_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="finger2_joint"
+    type="revolute">
+    <origin
+      xyz="0 -0.0368 -0.039"
+      rpy="3.1416 -1.5777E-30 -3.1416" />
+    <parent
+      link="gripper_rotate_link" />
+    <child
+      link="finger2_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.314"
+      upper="0.1396"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger3_link">
+    <inertial>
+      <origin
+        xyz="4.16333634234434E-17 -0.0491989260888198 0.000265923835535364"
+        rpy="0 0 0" />
+      <mass
+        value="0.0142516570501078" />
+      <inertia
+        ixx="1.29061026399682E-05"
+        ixy="2.97499298888809E-21"
+        ixz="3.81164826264435E-21"
+        iyy="1.13283292129302E-06"
+        iyz="-2.27545016132449E-06"
+        izz="1.26481195573146E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/finger3_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.6 0.6 0.6 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://explorer_sc_arm_description/meshes/finger3_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="finger3_joint"
+    type="revolute">
+    <origin
+      xyz="0.033775 -0.0368 0.0195"
+      rpy="3.4556E-30 1.0472 4.33E-19" />
+    <parent
+      link="gripper_rotate_link" />
+    <child
+      link="finger3_link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-0.1396"
+      upper="0.314"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link name="gripper_link"/>
+  <joint
+    name="gripper_joint" 
+    type="fixed">
+    <origin 
+      xyz="0.08 0 0" 
+      rpy="0 0 0" />
+    <parent 
+      link="gripper_rotate_link" />
+    <child 
+      link="gripper_link" />
+  </joint>
+</robot>

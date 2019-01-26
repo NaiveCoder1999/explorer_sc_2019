@@ -9,6 +9,6 @@ controller_list:
       - rotate_joint
   - name: fake_explorer_gripper_controller
     joints:
-      - finger1_finger2_joint
-      - finger2_finger3_joint
+      - finger1_joint
+      - finger2_joint
       - finger3_joint

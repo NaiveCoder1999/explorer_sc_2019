@@ -1,0 +1,53 @@
+digraph G {
+node [shape=box];
+"base_link" [label="base_link"];
+"front_back_base" [label="front_back_base"];
+"left_down_wheel_link" [label="left_down_wheel_link"];
+"left_up_wheel_link" [label="left_up_wheel_link"];
+"right_down_wheel_link" [label="right_down_wheel_link"];
+"right_up_wheel_link" [label="right_up_wheel_link"];
+"frame_link" [label="frame_link"];
+"arm1_link" [label="arm1_link"];
+"arm2_link" [label="arm2_link"];
+"arm3_link" [label="arm3_link"];
+"pt1_link" [label="pt1_link"];
+"pt2_link" [label="pt2_link"];
+"gripper_rotate_link" [label="gripper_rotate_link"];
+"finger1_link" [label="finger1_link"];
+"finger2_link" [label="finger2_link"];
+"finger3_link" [label="finger3_link"];
+"gripper_link" [label="gripper_link"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"base_link" -> "joint_front_back" [label="xyz: 0.024412 0.00539022 0.025 \nrpy: 6.93889e-18 -1.05101e-16 1.5708"]
+"joint_front_back" -> "front_back_base"
+"front_back_base" -> "left_down_wheel_base_joint" [label="xyz: 0.22551 0.28813 -0.091104 \nrpy: -7.0265e-33 1.1082e-16 -6.5165e-17"]
+"left_down_wheel_base_joint" -> "left_down_wheel_link"
+"front_back_base" -> "left_up_wheel_base_joint" [label="xyz: 0.22551 -0.23931 -0.091104 \nrpy: -7.0265e-33 1.1082e-16 -6.5165e-17"]
+"left_up_wheel_base_joint" -> "left_up_wheel_link"
+"front_back_base" -> "right_down_wheel_base_joint" [label="xyz: -0.25469 0.28813 -0.091104 \nrpy: -7.0265e-33 1.1082e-16 -6.5165e-17"]
+"right_down_wheel_base_joint" -> "right_down_wheel_link"
+"front_back_base" -> "right_up_wheel_base_joint" [label="xyz: -0.25469 -0.23931 -0.091104 \nrpy: -3.9302e-35 0 0"]
+"right_up_wheel_base_joint" -> "right_up_wheel_link"
+"front_back_base" -> "robot_left_right" [label="xyz: 0 0 0 \nrpy: -3.9302e-35 0 0"]
+"robot_left_right" -> "frame_link"
+"frame_link" -> "arm1_bearing_joint" [label="xyz: 0.06261 -0.045588 0.045 \nrpy: -3.9302e-35 0 0"]
+"arm1_bearing_joint" -> "arm1_link"
+"arm1_link" -> "arm2_arm1_joint" [label="xyz: 0.02425 0 0.061 \nrpy: -6.9389e-18 1.6633e-16 3.3897e-15"]
+"arm2_arm1_joint" -> "arm2_link"
+"arm2_link" -> "arm3_arm2_joint" [label="xyz: -0.0175 0.37413 0.065 \nrpy: 0 -0 0"]
+"arm3_arm2_joint" -> "arm3_link"
+"arm3_link" -> "pt1_arm_joint" [label="xyz: -0.0005 -0.29839 -0.011103 \nrpy: 0.0037086 1.6759e-15 -2.5288e-16"]
+"pt1_arm_joint" -> "pt1_link"
+"pt1_link" -> "pt2_pt1_joint" [label="xyz: -0.02555 -0.031 0 \nrpy: -1.0528e-14 1.3913e-14 2.3915e-17"]
+"pt2_pt1_joint" -> "pt2_link"
+"pt2_link" -> "rotate_joint" [label="xyz: 0.02985 -0.06535 0.001 \nrpy: 1.0648e-14 -3.4915e-15 -3.4915e-15"]
+"rotate_joint" -> "gripper_rotate_link"
+"gripper_rotate_link" -> "finger1_joint" [label="xyz: -0.033775 -0.0368 0.0195 \nrpy: 3.45566e-30 -1.0472 -4.3437e-19"]
+"finger1_joint" -> "finger1_link"
+"gripper_rotate_link" -> "finger2_joint" [label="xyz: 0 -0.0368 -0.039 \nrpy: -3.14159 -0 3.14159"]
+"finger2_joint" -> "finger2_link"
+"gripper_rotate_link" -> "finger3_joint" [label="xyz: 0.033775 -0.0368 0.0195 \nrpy: 3.45561e-30 1.0472 4.33e-19"]
+"finger3_joint" -> "finger3_link"
+"gripper_rotate_link" -> "gripper_joint" [label="xyz: 0.08 0 0 \nrpy: 0 -0 0"]
+"gripper_joint" -> "gripper_link"
+}

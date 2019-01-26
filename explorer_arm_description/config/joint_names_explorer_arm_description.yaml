@@ -1,1 +1,0 @@
-controller_joint_names: ['arm1_bearing_joint', 'arm2_arm1_joint', 'arm3_arm2_joint', 'pt1_arm_joint', 'pt2_pt1_joint', 'rotate_joint', 'finger1_finger2_joint', 'finger2_finger3_joint', 'finger3_joint', ]

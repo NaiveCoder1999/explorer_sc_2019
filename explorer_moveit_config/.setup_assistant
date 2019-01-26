@@ -1,11 +1,11 @@
 moveit_setup_assistant_config:
   URDF:
-    package: explorer_arm_description
-    relative_path: urdf/explorer_arm_description.urdf
+    package: explorer_sc_arm_description
+    relative_path: urdf/explorer_sc_arm_description.urdf
     xacro_args: "--inorder "
   SRDF:
-    relative_path: config/explorer_arm_description.srdf
+    relative_path: config/explorer_sc_arm_description.srdf
   CONFIG:
     author_name: naivecoder
     author_email: 540209474@qq.com
-    generated_timestamp: 1547892173
+    generated_timestamp: 1548426539

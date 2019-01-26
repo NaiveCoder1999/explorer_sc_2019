@@ -149,7 +149,7 @@ explorer_arm:
   projection_evaluator: joints(arm1_bearing_joint,arm2_arm1_joint)
   longest_valid_segment_fraction: 0.005
 explorer_gripper:
-  default_planner_config: ""
+  default_planner_config: None
   planner_configs:
     - SBL
     - EST
@@ -174,5 +174,5 @@ explorer_gripper:
     - LazyPRMstar
     - SPARS
     - SPARStwo
-  projection_evaluator: joints(finger1_finger2_joint,finger2_finger3_joint)
+  projection_evaluator: joints(finger1_joint,finger2_joint)
   longest_valid_segment_fraction: 0.005
