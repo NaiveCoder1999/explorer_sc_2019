@@ -20,15 +20,15 @@ node [shape=box];
 node [shape=ellipse, color=blue, fontcolor=blue];
 "base_link" -> "joint_front_back" [label="xyz: 0.024412 0.00539022 0.025 \nrpy: 6.93889e-18 -1.05101e-16 1.5708"]
 "joint_front_back" -> "front_back_base"
-"front_back_base" -> "left_down_wheel_base_joint" [label="xyz: 0.22551 0.28813 -0.091104 \nrpy: -7.0265e-33 1.1082e-16 -6.5165e-17"]
+"front_back_base" -> "left_down_wheel_base_joint" [label="xyz: 0.15861 0.28813 -0.091104 \nrpy: -7.0265e-33 1.1082e-16 -6.5165e-17"]
 "left_down_wheel_base_joint" -> "left_down_wheel_link"
-"front_back_base" -> "left_up_wheel_base_joint" [label="xyz: 0.22551 -0.23931 -0.091104 \nrpy: -7.0265e-33 1.1082e-16 -6.5165e-17"]
+"front_back_base" -> "left_up_wheel_base_joint" [label="xyz: 0.15861 -0.23931 -0.091104 \nrpy: -3.9302e-35 0 0"]
 "left_up_wheel_base_joint" -> "left_up_wheel_link"
-"front_back_base" -> "right_down_wheel_base_joint" [label="xyz: -0.25469 0.28813 -0.091104 \nrpy: -7.0265e-33 1.1082e-16 -6.5165e-17"]
+"front_back_base" -> "right_down_wheel_base_joint" [label="xyz: -0.16939 0.28813 -0.091104 \nrpy: -7.0265e-33 1.1082e-16 -6.5165e-17"]
 "right_down_wheel_base_joint" -> "right_down_wheel_link"
-"front_back_base" -> "right_up_wheel_base_joint" [label="xyz: -0.25469 -0.23931 -0.091104 \nrpy: -3.9302e-35 0 0"]
+"front_back_base" -> "right_up_wheel_base_joint" [label="xyz: -0.16939 -0.23931 -0.091104 \nrpy: -3.9302e-35 0 0"]
 "right_up_wheel_base_joint" -> "right_up_wheel_link"
-"front_back_base" -> "robot_left_right" [label="xyz: 0 0 0 \nrpy: -3.9302e-35 0 0"]
+"front_back_base" -> "robot_left_right" [label="xyz: 0 0 0 \nrpy: -3.93024e-35 0 0"]
 "robot_left_right" -> "frame_link"
 "frame_link" -> "arm1_bearing_joint" [label="xyz: 0.06261 -0.045588 0.045 \nrpy: -3.9302e-35 0 0"]
 "arm1_bearing_joint" -> "arm1_link"

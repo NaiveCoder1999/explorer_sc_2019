@@ -378,9 +378,9 @@ void ExplorerHardware::pub_arm_joint_cmd() {
         arm_move_joint_message.low_level_id = 6;
         arm_move_joint_message.high_level_id = 6;
         arm_move_joint_message.data.push_back(arm_joint_pos_["arm2_arm1_joint"]);
-        arm_move_joint_message.data.push_back(arm_joint_pos_["arm3_arm2_joint"]/2);
+        arm_move_joint_message.data.push_back(arm_joint_pos_["arm3_arm2_joint"]);
         last_arm2_arm1_joint = arm_joint_pos_["arm2_arm1_joint"];
-        last_arm3_arm2_joint = arm_joint_pos_["arm3_arm2_joint"]/2;
+        last_arm3_arm2_joint = arm_joint_pos_["arm3_arm2_joint"];
         arm_joint_cmd_["arm2_arm1_joint"] = 0.0;
         arm_joint_cmd_["arm3_arm2_joint"] = 0.0;
         robot_drive_pub_.publish(arm_move_joint_message);

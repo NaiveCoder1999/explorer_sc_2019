@@ -235,7 +235,7 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
         { //直接控制
             if (std::fabs(joy_msg->askForAxes(arm_control_forward_back)) > 10e-6)
             {
-                arm_direct_publisher.twist.linear.z = arm_scale_direct * joy_msg->askForAxes(arm_control_forward_back); //小臂上下arm3_arm2_joint
+                arm_direct_publisher.twist.linear.z = -arm_scale_direct * joy_msg->askForAxes(arm_control_forward_back); //小臂上下arm3_arm2_joint
             }
 
             if (std::fabs(joy_msg->askForAxes(arm_control_left_right)) > 10e-6)
@@ -245,7 +245,7 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
 
             if (std::fabs(joy_msg->askForAxes(arm_control_up_down)) > 10e-6)
             {
-                arm_direct_publisher.twist.linear.x = arm_scale_direct * joy_msg->askForAxes(arm_control_up_down); //整体大臂上下arm2_arm1_joint
+                arm_direct_publisher.twist.linear.x = -arm_scale_direct * joy_msg->askForAxes(arm_control_up_down); //整体大臂上下arm2_arm1_joint
             }
 
             if (std::fabs(joy_msg->askForAxes(camera_control_up_down)) > 10e-6)
@@ -255,7 +255,7 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
 
             if (std::fabs(joy_msg->askForAxes(camera_control_left_right)) > 10e-6)
             {
-                arm_direct_publisher.twist.angular.y = -arm_camera_scale * joy_msg->askForAxes(camera_control_left_right); //爪子后端旋转pt1_arm_joint
+                arm_direct_publisher.twist.angular.y = arm_camera_scale * joy_msg->askForAxes(camera_control_left_right); //爪子后端旋转pt1_arm_joint
             }
 
             if (std::fabs(joy_msg->askForAxes(paw_turn_left_right)) > 10e-6)

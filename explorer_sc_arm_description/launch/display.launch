@@ -6,7 +6,7 @@
     default="False" />
   <param
     name="robot_description"
-    textfile="$(find explorer_sc_arm_description)/urdf/explorer_sc_arm_description.urdf" />
+    textfile="$(find explorer_sc_arm_description)/robots/explorer_sc_arm_description.urdf" />
   <param
     name="use_gui"
     value="$(arg gui)" />

@@ -3,5 +3,5 @@
 <launch>
     <include file = "$(find explorer_launch)/launch/server/start_robot_moveit.launch"/>
     <include file = "$(find explorer_launch)/launch/client/start_robot_joy.launch"/>
-      <include file = "$(find explorer_launch)/launch/client/start_robot_sensor.launch"/>  
+      <!--include file = "$(find explorer_launch)/launch/client/start_robot_sensor.launch"/-->  
 </launch>

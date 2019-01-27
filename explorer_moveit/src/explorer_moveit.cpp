@@ -5,8 +5,8 @@ explorer_moveit::explorer_moveit(ros::NodeHandle node):
   nh_(node),PLANNING_GROUP("explorer_arm"),move_group(PLANNING_GROUP)
 
 {
-    reference_frame = "base_link";
-    move_group.setPoseReferenceFrame(reference_frame);
+    reference_frame = "frame_link";
+    //move_group.setPoseReferenceFrame(reference_frame);
     //current_posi = move_group.getCurrentPose("pt2_link");
     //current_posi = move_group.getCurrentPose("gripper_link");
      //current_RPY = move_group.getCurrentRPY("gripper_link");

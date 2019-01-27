@@ -14,7 +14,6 @@ explorer_sc_arm_description:
       - left_up_wheel_base_joint
       - right_down_wheel_base_joint
       - right_up_wheel_base_joint
-      - robot_left_right
       - arm1_bearing_joint
       - arm2_arm1_joint
       - arm3_arm2_joint
