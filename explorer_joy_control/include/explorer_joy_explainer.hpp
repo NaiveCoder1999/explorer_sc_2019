@@ -83,7 +83,7 @@ public:
         _up_down = 7;                  //1.0 上 -1.0 下
         _left_right = 6;               //1.0 左 -1.0 右
         _left_axes_up_down = 1;        //1.0 上 -1.0 下
-        _left_axes_right_left = 0;     //1.0 左 -1.0 右
+        _left_axes_left_right = 0;     //1.0 左 -1.0 右
         _left_axes_button = 13;
         _right_axes_up_down = 3;       //1.0 上 -1.0 下
         _right_axes_left_right = 2;    //1.0 左 -1.0 右
@@ -119,8 +119,8 @@ public:
         button.at(right)    = msg->axes[_left_right]    < -threshold;
         button.at(up)       = msg->axes[_up_down]       > threshold;
         button.at(down)     = msg->axes[_up_down]       < -threshold;
-        button.at(left_axes_left)   = msg->axes[_left_axes_right_left]  > threshold;
-        button.at(left_axes_right)  = msg->axes[_left_axes_right_left]  < -threshold;
+        button.at(left_axes_left)   = msg->axes[_left_axes_left_right]  > threshold;
+        button.at(left_axes_right)  = msg->axes[_left_axes_left_right]  < -threshold;
         button.at(left_axes_up)     = msg->axes[_left_axes_up_down]     > threshold;
         button.at(left_axes_down)   = msg->axes[_left_axes_up_down]     < -threshold;
         button.at(right_axes_left)  = msg->axes[_right_axes_left_right] > threshold;
@@ -133,7 +133,7 @@ public:
         axes.at(up_down) = msg->axes[_up_down];
         axes.at(left_right) = msg->axes[_left_right];
         axes.at(left_axes_up_down) = msg->axes[_left_axes_up_down];
-        axes.at(left_axes_left_right) = msg->axes[_left_axes_right_left];
+        axes.at(left_axes_left_right) = msg->axes[_left_axes_left_right];
         axes.at(right_axes_up_down) = msg->axes[_right_axes_up_down];
         axes.at(right_axes_left_right) = msg->axes[_right_axes_left_right];
         axes.at(right_button_up_down) = msg->buttons[_button1] - msg->buttons[_button3];
@@ -173,7 +173,7 @@ protected:
     int _up_down;                  //1.0 上 -1.0 下
     int _left_right;               //1.0 左 -1.0 右
     int _left_axes_up_down;        //1.0 上 -1.0 下
-    int _left_axes_right_left;     //1.0 左 -1.0 右
+    int _left_axes_left_right;     //1.0 左 -1.0 右
     int _left_axes_button;
     int _right_axes_up_down;       //1.0 上 -1.0 下
     int _right_axes_left_right;    //1.0 左 -1.0 右
@@ -182,6 +182,8 @@ protected:
     ::std::vector<double> axes;
 };
 
+//Another class of SaiTaiKe joystick
+/**
 class shoubing: public explorerJoyExplainer {
 private:
     const double threshold = 0.1;
@@ -198,7 +200,7 @@ public:
         _up_down = 5;                  //1.0 上 -1.0 下
         _left_right = 4;               //1.0 左 -1.0 右
         _left_axes_up_down = 1;        //1.0 上 -1.0 下
-        _left_axes_right_left = 0;     //1.0 左 -1.0 右
+        _left_axes_left_right = 0;     //1.0 左 -1.0 右
         _left_axes_button = 10;
         _right_axes_up_down = 3;       //1.0 上 -1.0 下
         _right_axes_left_right = 2;    //1.0 左 -1.0 右
@@ -227,8 +229,8 @@ public:
         button.at(right)    = msg->axes[_left_right]    < -threshold;
         button.at(up)       = msg->axes[_up_down]       > threshold;
         button.at(down)     = msg->axes[_up_down]       < -threshold;
-        button.at(left_axes_left)   = msg->axes[_left_axes_right_left]  > threshold;
-        button.at(left_axes_right)  = msg->axes[_left_axes_right_left]  < -threshold;
+        button.at(left_axes_left)   = msg->axes[_left_axes_left_right]  > threshold;
+        button.at(left_axes_right)  = msg->axes[_left_axes_left_right]  < -threshold;
         button.at(left_axes_up)     = msg->axes[_left_axes_up_down]     > threshold;
         button.at(left_axes_down)   = msg->axes[_left_axes_up_down]     < -threshold;
         button.at(right_axes_left)  = msg->axes[_right_axes_left_right] > threshold;
@@ -241,7 +243,7 @@ public:
         axes.at(up_down) = msg->axes[_up_down];
         axes.at(left_right) = msg->axes[_left_right];
         axes.at(left_axes_up_down) = msg->axes[_left_axes_up_down];
-        axes.at(left_axes_left_right) = msg->axes[_left_axes_right_left];
+        axes.at(left_axes_left_right) = msg->axes[_left_axes_left_right];
         axes.at(right_axes_up_down) = msg->axes[_right_axes_up_down];
         axes.at(right_axes_left_right) = msg->axes[_right_axes_left_right];
         axes.at(right_button_up_down) = msg->buttons[_button1] - msg->buttons[_button3];
@@ -281,7 +283,7 @@ protected:
     int _up_down;                  //1.0 上 -1.0 下
     int _left_right;               //1.0 左 -1.0 右
     int _left_axes_up_down;        //1.0 上 -1.0 下
-    int _left_axes_right_left;     //1.0 左 -1.0 右
+    int _left_axes_left_right;     //1.0 左 -1.0 右
     int _left_axes_button;
     int _right_axes_up_down;       //1.0 上 -1.0 下
     int _right_axes_left_right;    //1.0 左 -1.0 右
@@ -289,6 +291,7 @@ protected:
     ::std::vector<bool> button;
     ::std::vector<double> axes;
 };
+**/
 
 class beitong: public explorerJoyExplainer {
 private:
@@ -306,7 +309,7 @@ public:
         _up_down = 7;                  //1.0 上 -1.0 下
         _left_right = 6;               //1.0 左 -1.0 右
         _left_axes_up_down = 1;        //1.0 上 -1.0 下
-        _left_axes_right_left = 0;     //1.0 左 -1.0 右
+        _left_axes_left_right = 0;     //1.0 左 -1.0 右
         _left_axes_button = 9;
         _right_axes_up_down = 4;       //1.0 上 -1.0 下
         _right_axes_left_right = 3;    //1.0 左 -1.0 右
@@ -335,8 +338,8 @@ public:
         button.at(right)    = msg->axes[_left_right]    < -threshold;
         button.at(up)       = msg->axes[_up_down]       > threshold;
         button.at(down)     = msg->axes[_up_down]       < -threshold;
-        button.at(left_axes_left)   = msg->axes[_left_axes_right_left]  > threshold;
-        button.at(left_axes_right)  = msg->axes[_left_axes_right_left]  < -threshold;
+        button.at(left_axes_left)   = msg->axes[_left_axes_left_right]  > threshold;
+        button.at(left_axes_right)  = msg->axes[_left_axes_left_right]  < -threshold;
         button.at(left_axes_up)     = msg->axes[_left_axes_up_down]     > threshold;
         button.at(left_axes_down)   = msg->axes[_left_axes_up_down]     < -threshold;
         button.at(right_axes_left)  = msg->axes[_right_axes_left_right] > threshold;
@@ -349,7 +352,7 @@ public:
         axes.at(up_down) = msg->axes[_up_down];
         axes.at(left_right) = msg->axes[_left_right];
         axes.at(left_axes_up_down) = msg->axes[_left_axes_up_down];
-        axes.at(left_axes_left_right) = msg->axes[_left_axes_right_left];
+        axes.at(left_axes_left_right) = msg->axes[_left_axes_left_right];
         axes.at(right_axes_up_down) = msg->axes[_right_axes_up_down];
         axes.at(right_axes_left_right) = msg->axes[_right_axes_left_right];
         axes.at(right_button_up_down) = msg->buttons[_button1] - msg->buttons[_button3];
@@ -389,7 +392,114 @@ protected:
     int _up_down;                  //1.0 上 -1.0 下
     int _left_right;               //1.0 左 -1.0 右
     int _left_axes_up_down;        //1.0 上 -1.0 下
-    int _left_axes_right_left;     //1.0 左 -1.0 右
+    int _left_axes_left_right;     //1.0 左 -1.0 右
+    int _left_axes_button;
+    int _right_axes_up_down;       //1.0 上 -1.0 下
+    int _right_axes_left_right;    //1.0 左 -1.0 右
+    int _right_axes_button;
+    ::std::vector<bool> button;
+    ::std::vector<double> axes;
+};
+
+class BeiTongWireless: public explorerJoyExplainer {
+private:
+    const double threshold = 0.1;
+public:
+    BeiTongWireless() : button(button_size, false), axes(axes_size, 0.0), explorerJoyExplainer() {
+        _L1 = 4;
+        _L2 = 6;
+        _R1 = 5;
+        _R2 = 7;
+        _button1 = 0;
+        _button2 = 1;
+        _button3 = 2;
+        _button4 = 3;
+        _up_down = 5;                  //-32767上，32767下
+        _left_right = 4;               
+        _left_axes_up_down = 1;        
+        _left_axes_left_right = 0;     
+        _left_axes_button = 10;
+        _right_axes_up_down = 3;       
+        _right_axes_left_right = 2;    
+        _right_axes_button = 11;
+    }
+    virtual ~BeiTongWireless() {};
+    static int getButtonListSize() {
+        return 12;
+    }
+    static int getAxesListSize() {
+        return 6;
+    }
+
+
+    void getMessage(sensor_msgs::Joy::ConstPtr msg) {
+        // 获取joy消息后进行处理
+        button.at(L1) = msg->buttons[_L1];
+        button.at(L2) = msg->buttons[_L2];
+        button.at(R1) = msg->buttons[_R1];
+        button.at(R2) = msg->buttons[_R2];
+        button.at(button1) = msg->buttons[_button1];
+        button.at(button2) = msg->buttons[_button2];
+        button.at(button3) = msg->buttons[_button3];
+        button.at(button4) = msg->buttons[_button4];
+        button.at(left) = msg->axes[_left_right] > threshold;
+        button.at(right) = msg->axes[_left_right] < -threshold;
+        button.at(up) = msg->axes[_up_down] > threshold;
+        button.at(down) = msg->axes[_up_down] < -threshold;
+        button.at(left_axes_left) = msg->axes[_left_axes_left_right] < -threshold;
+        button.at(left_axes_right) = msg->axes[_left_axes_left_right] > threshold;
+        button.at(left_axes_up) = msg->axes[_left_axes_up_down] > threshold;
+        button.at(left_axes_down) = msg->axes[_left_axes_up_down] < -threshold;
+        button.at(right_axes_left) = msg->axes[_right_axes_left_right] > threshold ;
+        button.at(right_axes_right) = msg->axes[_right_axes_left_right] < -threshold;
+        button.at(right_axes_up) = msg->axes[_right_axes_up_down] > threshold ;
+        button.at(right_axes_down) = msg->axes[_right_axes_up_down]< -threshold;
+        button.at(left_axes_button) = msg->buttons[_left_axes_button];
+        button.at(right_axes_button) = msg->buttons[_right_axes_button];
+
+        axes.at(up_down) = msg->axes[_up_down];
+        axes.at(left_right) = msg->axes[_left_right];
+        axes.at(left_axes_up_down) = msg->axes[_left_axes_up_down];
+        axes.at(left_axes_left_right) = msg->axes[_left_axes_left_right];
+        axes.at(right_axes_up_down) = msg->axes[_right_axes_up_down];
+        axes.at(right_axes_left_right) = msg->axes[_right_axes_left_right];
+        axes.at(right_button_up_down) = msg->buttons[_button1] - msg->buttons[_button3];
+        axes.at(right_button_left_right) = msg->buttons[_button4] - msg->buttons[_button2];
+    }
+    bool askForButton(int name) {
+        if (name < 0 || name >= button_size) {
+            return false;
+        }
+
+        return button.at(name);
+    }
+
+    double askForAxes(int name) {
+        if (name == 0 || name >= axes_size || name <= -axes_size) {
+            return 0.0;
+        }
+
+        if (name > 0) {
+            return axes.at(name);
+        } else {
+            return - axes.at(-name);
+        }
+    }
+protected:
+    // 以下为按键在joy的消息中的位置
+    // 请在更换手柄后更改以下数据
+    int _L1;
+    int _L2;
+    int _R1;
+    int _R2;
+    int _button1;
+    int _button2;
+    int _button3;
+    int _button4;
+    int _up_down;                  //1.0 上 -1.0 下
+    int _left_right;               //1.0 左 -1.0 右
+    int _left_axes_up_down;        //1.0 上 -1.0 下
+    int _left_axes_left_right;     //1.0 左 -1.0 右
     int _left_axes_button;
     int _right_axes_up_down;       //1.0 上 -1.0 下
     int _right_axes_left_right;    //1.0 左 -1.0 右
@@ -430,11 +540,17 @@ public:
                 explainer = NULL;
                 explainer = new beitong();
                 // ROS_INFO("chose beitong");
-            }else if (//joy->buttons.size() == shoubing::getButtonListSize() && 
+            }/**else if (//joy->buttons.size() == shoubing::getButtonListSize() && 
             joy->axes.size() == shoubing::getAxesListSize()){
                 delete explainer;
                 explainer = NULL;
                 explainer = new shoubing();
+            }**/
+            else if (joy->buttons.size() == BeiTongWireless::getButtonListSize() && joy->axes.size() == BeiTongWireless::getAxesListSize()) {
+                delete explainer;
+                explainer = NULL;
+                explainer = new BeiTongWireless();
+                // ROS_INFO("chose beitong");
             }else{
                 delete explainer;
                 explainer = NULL;
