@@ -228,7 +228,7 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
 
             if (std::fabs(joy_msg->askForAxes(paws_control_open_close)) > 10e-6)
             { //2 4 爪子开合
-                gripper_move_msg.data = joy_msg->askForAxes(paws_control_open_close) * arm_camera_scale;
+                gripper_move_msg.data = arm_camera_scale* joy_msg->askForAxes(paws_control_open_close) ;
             }
         }
         else
@@ -260,11 +260,11 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
 
             if (std::fabs(joy_msg->askForAxes(paw_turn_left_right)) > 10e-6)
             {
-                arm_direct_publisher.twist.angular.z = -joy_msg->askForAxes(paw_turn_left_right) * arm_camera_scale; //爪子旋转rotate_joint
+                arm_direct_publisher.twist.angular.z = -arm_camera_scale * joy_msg->askForAxes(paw_turn_left_right); //爪子旋转rotate_joint
             }
             if (std::fabs(joy_msg->askForAxes(paws_control_open_close)) > 10e-6)
             {
-                gripper_move_msg.data = joy_msg->askForAxes(paws_control_open_close) * arm_camera_scale;//爪子开合gripper_joint
+                gripper_move_msg.data = -arm_camera_scale * joy_msg->askForAxes(paws_control_open_close) ;//爪子开合gripper_joint
             }
         }
 

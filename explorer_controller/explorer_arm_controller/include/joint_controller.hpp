@@ -2,8 +2,8 @@
 #include <string>
 #include <ros/ros.h>
 #include <hardware_interface/joint_command_interface.h>
-//定义pi~3.14159265...
-const double pi = acos(0.0) * 2;
+//定义PI~3.14159265...
+const double PI = acos(0.0) * 2;
 /*无限制关节*/
 class joint {
 public:
@@ -89,12 +89,12 @@ public:
 protected:
     // 工具函数,检查数据是否合法,返回合法的数值
     double check(double rad) {
-        while (rad > pi) {
-            rad -= pi * 2;
+        while (rad > PI) {
+            rad -= PI * 2;
         }
 
-        while (rad < -pi) {
-            rad += pi * 2;
+        while (rad < -PI) {
+            rad += PI * 2;
         }
 
         return rad;
@@ -102,27 +102,27 @@ protected:
     // 比较两个角度,若a在b左侧,返回true
     bool compare_in_left(double a, double b) {
         if (a <= b) {
-            return (b - a) < (a + 2.0 * pi - b);
+            return (b - a) < (a + 2.0 * PI - b);
         } else {
-            return (a - b) > (b + 2.0 * pi - a);
+            return (a - b) > (b + 2.0 * PI - a);
         }
     }
     // 比较两个角度,若a在b右侧,返回true
     bool compare_in_right(double a, double b) {
         if (a <= b) {
-            return (b - a) > (a + 2 * pi - b);
+            return (b - a) > (a + 2 * PI - b);
         } else {
-            return (a - b) < (b + 2.0 * pi - a);
+            return (a - b) < (b + 2.0 * PI - a);
         }
     }
     // 角度的减法,获取角度的最小差值
     double sutraction(double a, double b) {
         double result = fabs(a - b);
 
-        if (result <= pi) {
+        if (result <= PI) {
             return result;
         } else {
-            return 2.0 * pi - result;
+            return 2.0 * PI - result;
         }
     }
     std::string name;
@@ -172,7 +172,7 @@ public:
         return fabs(now_pose - aim_pose) / now_speed;
     }
 
-    bool moveToAim(double s) {
+    bool moveToAim(double timep) {
         //now_speed = speed_limit;
         this->getNowPose();
 
@@ -182,11 +182,11 @@ public:
             return true;
         }
 
-        // 计算当前一次移动的角度大小
-        double move_rad = fabs(this->now_speed * s);
+        // 计算当前一次移动的角度大小,timep为ROS两次刷新之间的时间差，见arm_controller
+        double move_rad = fabs(this->now_speed * timep);
 
-        if (move_rad > pi / 2.0) {
-            move_rad = pi / 2.0;
+        if (move_rad > PI / 2.0) {
+            move_rad = PI / 2.0;  //极限角度大小为90度
         }
 
         // 没有限制的情况
@@ -196,10 +196,10 @@ public:
             return true;
         } else {
             if (aim_pose < now_pose) {
-
+                //从大弧度到小弧度
                 handle.setCommand(-move_rad);
             } else {
-
+                //从小弧度到大弧度
                 handle.setCommand(move_rad);
             }
 

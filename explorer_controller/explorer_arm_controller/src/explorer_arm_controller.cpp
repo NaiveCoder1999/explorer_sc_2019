@@ -28,7 +28,6 @@ bool ArmController::init(hardware_interface::PositionJointInterface *joint_handl
     this->state_sub_ = controller_nh.subscribe("/explorer_arm_direct", 10, &ArmController::jointStateSub, this);
     this->reset_sub_ = controller_nh.subscribe("/explorer_reset", 10, &ArmController::resetStateSub, this);
     this->gripper_sub_ = controller_nh.subscribe("/explorer_gripper", 10, &ArmController::gripperStateSub, this);
-    //TODO:change the topic name remap??
     this->moveit_sub_ = controller_nh.subscribe("/explorer_moveit_listener/explorer_moveit_joint", 50, &ArmController::moveitSub, this);
     this->yuntai_sub_ = controller_nh.subscribe("/explorer_serial_data/19", 10, &ArmController::yuntaiSub, this);
     //this->imu_pub_ = controller_nh.advertise<sensor_msgs::Imu>("imu", 1);
@@ -93,6 +92,7 @@ void ArmController::update(const ros::Time &time, const ros::Duration &period)
     }
 }
 
+//机械臂移动控制
 void ArmController::jointStateSub(const geometry_msgs::TwistStamped &msg)
 {
     if (msg.twist.linear.x != 0 || msg.twist.linear.y != 0 || msg.twist.linear.z != 0 ||
@@ -119,11 +119,14 @@ void ArmController::jointStateSub(const geometry_msgs::TwistStamped &msg)
                                       + msg.twist.angular.z);
 }
 
+//爪子开合控制
 void ArmController::gripperStateSub(const std_msgs::Float32 &ptr)
 {
     double static const cnt = 0.07;
     joint_map["gripper_joint"]->setAim(joint_map["gripper_joint"]->getNowPose() + ptr.data);
 }
+
+//机械臂位姿重置
 void ArmController::resetStateSub(const explorer_msgs::explorer_reset &ptr)
 {
     ROS_INFO("reset pub");
@@ -136,12 +139,13 @@ void ArmController::resetStateSub(const explorer_msgs::explorer_reset &ptr)
 
     if (ptr.reset_arm)
     {
-        if (fabs(joint_map["arm1_bearing_joint"]->getResetPose() - joint_map["arm1_bearing_joint"]->getNowPose()) < pi / 4)
+        /**
+        if (fabs(joint_map["arm1_bearing_joint"]->getResetPose() - joint_map["arm1_bearing_joint"]->getNowPose()) < PI / 4)
         {
             // 当机械臂偏移角度不大时(小于45度),直接复位
             for (auto it = joint_map.begin(); it != joint_map.end(); ++it)
             {
-                it->second->readyForResetPose();
+                it->second->readyForResetPose(); //目标值aim_pose被赋值为重置的位姿数值
             }
         }
         else
@@ -149,40 +153,91 @@ void ArmController::resetStateSub(const explorer_msgs::explorer_reset &ptr)
             // 当机械臂偏移角度过大时,分步骤复位
             std::vector<std::pair<std::string, double>> queue;
 
-            /*第一步,将大臂立起来*/
-            queue.push_back(std::make_pair(std::string("arm2_arm1_joint"), 0.0 /*这个角度是目测出来的*/));
-            queue.push_back(std::make_pair(std::string("arm3_arm2_joint"), 0.0 /*这个角度是目测出来的*/));
+            //第一步,将大臂立起来
+            
+            queue.push_back(std::make_pair(std::string("arm2_arm1_joint"), -0.44));
+            queue.push_back(std::make_pair(std::string("arm3_arm2_joint"), 0.85));
             reset_queue.push(queue);
+            queue.clear();
+        }
+        **/
+       std::vector<std::pair<std::string, double>> queue;
+        if (fabs(joint_map["arm1_bearing_joint"]->getResetPose() - joint_map["arm1_bearing_joint"]->getNowPose()) < PI / 4)
+        {
+            // 当机械臂偏移角度不大时(小于45度),先自下到上复位小臂
+            
+            queue.push_back(std::make_pair(std::string("gripper_joint"), joint_map["gripper_joint"]->getResetPose()));
+            queue.push_back(std::make_pair(std::string("rotate_joint"), joint_map["rotate_joint"]->getResetPose()));
+            queue.push_back(std::make_pair(std::string("pt2_pt1_joint"), joint_map["pt2_pt1_joint"]->getResetPose()));
+            queue.push_back(std::make_pair(std::string("pt1_arm_joint"), joint_map["pt1_arm_joint"]->getResetPose()));
+            reset_queue.push(queue);
+            queue.clear();
+            for (auto it = joint_map.begin(); it != joint_map.end(); ++it)
+            {
+                it->second->readyForResetPose(); //目标值aim_pose被赋值为重置的位姿数值
+            }
+        }
+        else
+        {
+            // 当机械臂偏移角度过大时,分步复位
+            
 
+            //第一步,将大臂立起来,底座复位
+            queue.push_back(std::make_pair(std::string("arm3_arm2_joint"), 0.85));
+            queue.push_back(std::make_pair(std::string("arm2_arm1_joint"), -0.44));
+            queue.push_back(std::make_pair(std::string("arm1_bearing_joint"), 0.0));
+            reset_queue.push(queue);
+            queue.clear();
+            
+
+            //第二步,大臂转正,复位小臂
+            
+            queue.push_back(std::make_pair(std::string("arm1_bearing_joint"), joint_map["arm1_bearing_joint"]->getResetPose()));
+            queue.push_back(std::make_pair(std::string("gripper_joint"), joint_map["gripper_joint"]->getResetPose()));
+            queue.push_back(std::make_pair(std::string("rotate_joint"), joint_map["rotate_joint"]->getResetPose()));
+            queue.push_back(std::make_pair(std::string("pt2_pt1_joint"), joint_map["pt2_pt1_joint"]->getResetPose()));
+            queue.push_back(std::make_pair(std::string("pt1_arm_joint"), joint_map["pt1_arm_joint"]->getResetPose()));
+            reset_queue.push(queue);
             queue.clear();
 
-            /*第二步,复位小臂以及将大臂转正*/
-            queue.push_back(std::make_pair(std::string("arm1_bearing_joint"), joint_map["arm1_bearing_joint"]->getNowPose()));
-            queue.push_back(std::make_pair(std::string("pt1_arm_joint"), joint_map["pt1_arm_joint"]->getNowPose()));
-            queue.push_back(std::make_pair(std::string("pt2_pt1_joint"), joint_map["pt2_pt1_joint"]->getNowPose()));
-            queue.push_back(std::make_pair(std::string("rotate_joint"), joint_map["rotate_joint"]->getNowPose()));
-            queue.push_back(std::make_pair(std::string("gripper_joint"), joint_map["gripper_joint"]->getNowPose()));
+            /**
+            joint_map["arm1_bearing_joint"]->readyForResetPose();
+            joint_map["gripper_joint"]->readyForResetPose();
+            joint_map["rotate_joint"]->readyForResetPose();
+            joint_map["pt2_pt1_joint"]->readyForResetPose();
+            joint_map["pt1_arm_joint"]->readyForResetPose();
+            **/
+
+            //第三步,将大臂复位
+            queue.push_back(std::make_pair(std::string("arm2_arm1_joint"), joint_map["arm2_arm1_joint"]->getResetPose()));
+            queue.push_back(std::make_pair(std::string("arm3_arm2_joint"), joint_map["arm3_arm2_joint"]->getResetPose()));
             reset_queue.push(queue);
 
-            queue.clear();
-
-            /*第三步,将大臂复位*/
-            queue.push_back(std::make_pair(std::string("arm2_arm1_joint"), joint_map["arm2_arm1_joint"]->getNowPose()));
-            queue.push_back(std::make_pair(std::string("arm3_arm2_joint"), joint_map["arm3_arm2_joint"]->getNowPose()));
-            reset_queue.push(queue);
+           /**
+           joint_map["arm2_arm1_joint"]->readyForResetPose();
+           joint_map["arm3_arm2_joint"]->readyForResetPose();
+           **/
         }
     }
     else if (ptr.reset_camera)
-    {
+    {  /**
         for (int i = 3; i < arm_name.size(); ++i)
         {
             joint_map[arm_name[i]]->readyForResetPose();
         }
+        **/
+       std::vector<std::pair<std::string, double>> queue;
+       queue.push_back(std::make_pair(std::string("gripper_joint"), joint_map["gripper_joint"]->getResetPose()));
+       queue.push_back(std::make_pair(std::string("rotate_joint"), joint_map["rotate_joint"]->getResetPose()));
+       queue.push_back(std::make_pair(std::string("pt2_pt1_joint"), joint_map["pt2_pt1_joint"]->getResetPose()));
+       queue.push_back(std::make_pair(std::string("pt1_arm_joint"), joint_map["pt1_arm_joint"]->getResetPose()));
+       reset_queue.push(queue);
+       queue.clear();
     }
     else if (ptr.reset_paws)
     {
         joint_map["rotate_joint"]->readyForResetPose();
-        joint_map["gripper_joint"]->setAim(1.090);
+        joint_map["gripper_joint"]->setAim(1.57);
     }
 }
 

@@ -56,14 +56,14 @@ explorer_arm_controller:
       finger3_joint: 0.314
 # 这个是机械臂移动的速度数据 rad/s
     speed_limit: 
-      arm1_bearing_joint: 0.2
-      arm2_arm1_joint: 0.2
-      arm3_arm2_joint: 0.2
-      pt1_arm_joint: 0.2
-      pt2_pt1_joint: 0.2
-      rotate_joint: 0.2
-      gripper_joint: 0.2
-      finger1_joint: 0.2
-      finger2_joint: 0.2
-      finger3_joint: 0.2
+      arm1_bearing_joint: 0.3
+      arm2_arm1_joint: 0.3
+      arm3_arm2_joint: 0.3
+      pt1_arm_joint: 0.3
+      pt2_pt1_joint: 0.3
+      rotate_joint: 0.3
+      gripper_joint: 0.3
+      finger1_joint: 0.3
+      finger2_joint: 0.3
+      finger3_joint: 0.3
 
