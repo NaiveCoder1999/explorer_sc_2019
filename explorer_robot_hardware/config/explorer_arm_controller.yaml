@@ -61,7 +61,7 @@ explorer_arm_controller:
       arm3_arm2_joint: 0.3
       pt1_arm_joint: 0.3
       pt2_pt1_joint: 0.3
-      rotate_joint: 0.3
+      rotate_joint: 3.14
       gripper_joint: 0.3
       finger1_joint: 0.3
       finger2_joint: 0.3

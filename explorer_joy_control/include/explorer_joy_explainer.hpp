@@ -6,11 +6,13 @@
  * 新的手柄反馈
  * 接受来自package joy joy_node 的消息
  * 由于`joy joy_node`节点接收手柄数据是热插
- * 拔的，这里通过button和axes的长度判断手柄类型
+ * 拔的，这里通过button和axes的长度判断手柄类型，
+ * 请注意不同手柄的长度可能相同出现冲突！
  * 可以考虑改成/diagnostics内部的信息
  *****************************************
  * @作者:潘学谦-西工大舞蹈机器人基地-救援组
  * @创建时间:2017-3-17
+ * @修改时间:2019
  ****************************************/
 #ifndef explorerJoyExplainer_HPP
 #define explorerJoyExplainer_HPP
@@ -98,7 +100,7 @@ public:
         return 8;
     }
     /**
-     * 以下处理函数中，askForButton返回值均为正数1,askForAxes返回值有正有负
+     * 以下处理函数中，askForButton只有on与off状态,,askForAxes返回值有正有负
      * 
      * */
     void getMessage(sensor_msgs::Joy::ConstPtr msg) {
@@ -467,12 +469,12 @@ public:
         axes.at(right_button_left_right) = msg->buttons[_button4] - msg->buttons[_button2];
     }
     bool askForButton(int name) {
-        if (name < 0 || name >= button_size) {
-            return false;
-        }
+            if (name < 0 || name >= button_size) {
+                    return false;
+                }
 
-        return button.at(name);
-    }
+            return button.at(name);
+        }
 
     double askForAxes(int name) {
         if (name == 0 || name >= axes_size || name <= -axes_size) {

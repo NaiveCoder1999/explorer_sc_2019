@@ -55,6 +55,8 @@ private:
     // 速度调解指令
     int full_speed_button, mid_speed_button, slow_speed_button;
     int speed_front_back, speed_left_right;//未用
+    // 速度切换模式
+    int speed_switch_button;
     // 副履带简易控制指令
     int front_vice_wheel_up_down, back_vice_wheel_up,back_vice_wheel_down;
     // 副履带速度参数
@@ -82,11 +84,10 @@ private:
     // 用于在底盘出问题滴滴响时重新启动底盘
     int relive;
     // 副履带调整指令
-    /*
     int left_front_vice_wheel_up,   left_front_vice_wheel_down;
     int left_back_vice_wheel_up,    left_back_vice_wheel_down;
     int right_front_vice_wheel_up,  right_front_vice_wheel_down;
-    int right_back_vice_wheel_up,   right_back_vice_wheel_down;*/
+    int right_back_vice_wheel_up,   right_back_vice_wheel_down;
     int right_front_vice_wheel_up_down;
     int left_front_vice_wheel_up_down;
     int right_back_vice_wheel_up_down;
@@ -119,15 +120,17 @@ private:
     int arm_control_left_right;
     // 机械臂视角转动指令
     int camera_control_up_down;
-    int camera_control_left_right;
+    int camera_control_rotate;
     // 机械臂复位指令(依照设定,包括视角复位)
     int arm_reset_button;
     // 视角复位指令
     int camera_reset_button;
     // 爪子开合指令
-    int paws_control_open_close;
+    int gripper_control_open_close;
     // 爪子旋转指令
-    int paw_turn_left_right;
+    int gripper_control_rotate;
+    //爪子快速移动指令
+    int gripper_reset_left,gripper_reset_right;
     // 机械臂移动速度参数
     double arm_scale;
     double arm_scale_direct;

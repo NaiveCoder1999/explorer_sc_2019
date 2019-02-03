@@ -180,8 +180,6 @@ void ArmController::resetStateSub(const explorer_msgs::explorer_reset &ptr)
         else
         {
             // 当机械臂偏移角度过大时,分步复位
-            
-
             //第一步,将大臂立起来,底座复位
             queue.push_back(std::make_pair(std::string("arm3_arm2_joint"), 0.85));
             queue.push_back(std::make_pair(std::string("arm2_arm1_joint"), -0.44));
@@ -219,6 +217,7 @@ void ArmController::resetStateSub(const explorer_msgs::explorer_reset &ptr)
            **/
         }
     }
+
     else if (ptr.reset_camera)
     {  /**
         for (int i = 3; i < arm_name.size(); ++i)
@@ -234,11 +233,29 @@ void ArmController::resetStateSub(const explorer_msgs::explorer_reset &ptr)
        reset_queue.push(queue);
        queue.clear();
     }
+
     else if (ptr.reset_paws)
     {
         joint_map["rotate_joint"]->readyForResetPose();
         joint_map["gripper_joint"]->setAim(1.57);
     }
+
+    else if (ptr.gripper_left)
+    {
+        //joint_map["rotate_joint"]->handle.setCommand(-1.57);
+        joint_map["rotate_joint"]->setAim(-1.57);
+        //joint_map["rotate_joint"]->setNowPose(-1.57);
+
+    }
+
+    else if (ptr.gripper_right)
+    {
+        //joint_map["rotate_joint"]->handle.setCommand(1.57);
+        joint_map["rotate_joint"]->setAim(1.57);
+        //joint_map["rotate_joint"]->setNowPose(1.57);
+
+    }
+
 }
 
 void ArmController::moveitSub(const explorer_msgs::explorer_moveit_values &ptr)
