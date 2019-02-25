@@ -10,8 +10,7 @@ ExplorerTeleop::ExplorerTeleop() : ph_("~"),
     speed_switch_button(joy_msg->L1), 
     //speed_front_back(joy_msg->up_down), speed_left_right(joy_msg->left_right),
     // 副履带简易控制指令
-    /*
-    front_vice_wheel_up_down(joy_msg->up_down), back_vice_wheel_up(joy_msg->button1),back_vice_wheel_down(joy_msg->button3),
+    //front_vice_wheel_up_down(joy_msg->up_down), back_vice_wheel_up(joy_msg->button1),back_vice_wheel_down(joy_msg->button3),
     left_front_vice_wheel_up_down(joy_msg->up_down),
     left_back_vice_wheel_up_down(joy_msg->left_right),
     right_front_vice_wheel_up(joy_msg->button1),
@@ -20,16 +19,17 @@ ExplorerTeleop::ExplorerTeleop() : ph_("~"),
     right_back_vice_wheel_down(joy_msg->button4),
     //right_back_vice_wheel_up_down(joy_msg->right_axes_up_down),
     //right_front_vice_wheel_up_down(joy_msg->right_axes_up_down),
-    */
+
     // 副履带平行指令
     /*front_vice_wheel_parallel(joy_msg->button2),  back_vice_wheel_parallel(joy_msg->button4),
     vice_wheel_mode_button(joy_msg->L2),*/
 
-    // 车辆前进后退指令
-    // 用于重新开启底盘,前进与左右旋转，因更换轮子，左右平移已废弃
+    // 用于重新开启底盘
     //relive(joy_msg->button4),
-    linear_front_back(joy_msg->up_down),
-    angular_left_right(joy_msg->left_right),
+    // 车辆前进后退指令
+    linear_front_back(joy_msg->left_axes_up_down),
+    //左右旋转，因更换轮子，左右平移已废弃
+    angular_left_right(joy_msg->left_axes_left_right),
 
     // 机械臂相关
     //机械臂moveit解算与控制，待实现
@@ -78,14 +78,14 @@ ExplorerTeleop::ExplorerTeleop() : ph_("~"),
 
     vel_pub = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
 
-    //vice_change = nh_.subscribe<std_msgs::Float32>("vice_speed_change", 2, &ExplorerTeleop::vice_wheel_speed_change, this);
-    //vice_wheel_reset_pub = nh_.advertise<explorer_msgs::explorer_vice_reset>("explorer_vice_wheel_reset", 1);//副履带位置重置信号
-    //vice_wheel_pub = nh_.advertise<explorer_msgs::explorer_vice_wheel>("explorer_vice_wheel", 1);
+    vice_change = nh_.subscribe<std_msgs::Float32>("vice_speed_change", 2, &ExplorerTeleop::vice_wheel_speed_change, this);
+    vice_wheel_reset_pub = nh_.advertise<explorer_msgs::explorer_vice_reset>("explorer_vice_wheel_reset", 1);//副履带位置重置信号
+    vice_wheel_pub = nh_.advertise<explorer_msgs::explorer_vice_wheel>("explorer_vice_wheel", 1);
 
     arm_pub = nh_.advertise<explorer_msgs::explorer_moveit_gripper>("explorer_moveit_gripper", 1);
     arm_direct_pub = nh_.advertise<geometry_msgs::TwistStamped>("explorer_arm_direct", 1); 
 
-    reset_pub = nh_.advertise<explorer_msgs::explorer_reset>("explorer_reset", 1); //TODO:机械臂整体位置复原，可能废弃
+    reset_pub = nh_.advertise<explorer_msgs::explorer_reset>("explorer_reset", 1); 
     gripper_pub = nh_.advertise<std_msgs::Float32>("explorer_gripper", 1);
 
     //此处调整消息发布的频率，当前为10Hz
@@ -106,11 +106,9 @@ ExplorerTeleop::ExplorerTeleop() : ph_("~"),
     ph_.param("a_scale_slow", a_scale_slow, 1.5);
 }
 
-/**
 void ExplorerTeleop::vice_wheel_speed_change(std_msgs::Float32 data) {
     vice_scale = data.data;
 }
-**/
 
 void ExplorerTeleop::front_speed_change(std_msgs::Float32 data)
 {
@@ -131,8 +129,8 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
 {
     joy_msg->getMessage(joy);
     messageClean();
-    
-   if (joy_msg->askForButton(basic_mode_button)){//运动模式
+
+    if (joy_msg->askForButton(basic_mode_button)){//运动模式
             if (joy_msg->askForButton(speed_switch_button)){
                     if (joy_msg->askForButton(full_speed_button)){ //速度调节按钮
                             l_scale = l_scale_full;
