@@ -185,7 +185,7 @@ protected:
 };
 
 //Another class of SaiTaiKe joystick
-/**
+
 class shoubing: public explorerJoyExplainer {
 private:
     const double threshold = 0.1;
@@ -231,8 +231,8 @@ public:
         button.at(right)    = msg->axes[_left_right]    < -threshold;
         button.at(up)       = msg->axes[_up_down]       > threshold;
         button.at(down)     = msg->axes[_up_down]       < -threshold;
-        button.at(left_axes_left)   = msg->axes[_left_axes_left_right]  > threshold;
-        button.at(left_axes_right)  = msg->axes[_left_axes_left_right]  < -threshold;
+        button.at(left_axes_left)   = msg->axes[_left_axes_left_right]  < -threshold;
+        button.at(left_axes_right)  = msg->axes[_left_axes_left_right]  > threshold;
         button.at(left_axes_up)     = msg->axes[_left_axes_up_down]     > threshold;
         button.at(left_axes_down)   = msg->axes[_left_axes_up_down]     < -threshold;
         button.at(right_axes_left)  = msg->axes[_right_axes_left_right] > threshold;
@@ -293,7 +293,7 @@ protected:
     ::std::vector<bool> button;
     ::std::vector<double> axes;
 };
-**/
+
 
 class beitong: public explorerJoyExplainer {
 private:
@@ -403,6 +403,7 @@ protected:
     ::std::vector<double> axes;
 };
 
+/**
 class BeiTongWireless: public explorerJoyExplainer {
 private:
     const double threshold = 0.1;
@@ -509,6 +510,7 @@ protected:
     ::std::vector<bool> button;
     ::std::vector<double> axes;
 };
+**/
 
 class autoJoyExplainer : public explorerJoyExplainer {
 private:
@@ -542,18 +544,20 @@ public:
                 explainer = NULL;
                 explainer = new beitong();
                 // ROS_INFO("chose beitong");
-            }/**else if (//joy->buttons.size() == shoubing::getButtonListSize() && 
+            }else if (//joy->buttons.size() == shoubing::getButtonListSize() && 
             joy->axes.size() == shoubing::getAxesListSize()){
                 delete explainer;
                 explainer = NULL;
                 explainer = new shoubing();
-            }**/
-            else if (joy->buttons.size() == BeiTongWireless::getButtonListSize() && joy->axes.size() == BeiTongWireless::getAxesListSize()) {
+            }
+            /**else if (joy->buttons.size() == BeiTongWireless::getButtonListSize() && joy->axes.size() == BeiTongWireless::getAxesListSize()) {
                 delete explainer;
                 explainer = NULL;
                 explainer = new BeiTongWireless();
+                
                 // ROS_INFO("chose beitong");
-            }else{
+            }**/
+            else{
                 delete explainer;
                 explainer = NULL;
                 return;

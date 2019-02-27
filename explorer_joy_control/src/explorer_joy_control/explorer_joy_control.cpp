@@ -160,7 +160,7 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
             if (std::fabs(joy_msg->askForAxes(angular_left_right)) > 10e-6){
                     vel_publisher.angular.z = -joy_msg->askForAxes(angular_left_right) * a_scale;
                 }   
-
+            /**
             //左前副履带单独移动,axes组按钮
             if(std::fabs(joy_msg->askForAxes(left_front_vice_wheel_up_down))> 10e-6) {
                         vice_wheel_publisher.front_left_wheel_angular = -(joy_msg->askForAxes(left_front_vice_wheel_up_down)) * vice_whell_;
@@ -189,6 +189,7 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
             if(std::fabs(joy_msg->askForButton(right_back_vice_wheel_down) )> 10e-6) {
                     vice_wheel_publisher.back_right_wheel_angular = -(joy_msg->askForButton(right_back_vice_wheel_down)) * vice_whell_;
                 }
+            
 
             //重启底盘，手柄数字4,TODO
             if (std::fabs(joy_msg->askForButton(joy_msg->button1))> 10e-6
@@ -197,6 +198,7 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
                             && std::fabs(joy_msg->askForButton(joy_msg->button4))> 10e-6){
                     vel_publisher.linear.z = joy_msg->askForButton(relive);
                 }
+            **/
         }
 
     if (joy_msg->askForButton(arm_control_button))
@@ -210,7 +212,7 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
 
             if (std::fabs(joy_msg->askForAxes(arm_moveit_left_right)) > 10e-6)
             {
-                arm_moveit_publisher.y = arm_scale_moveit * joy_msg->askForAxes(arm_moveit_left_right); //按键左右 整体左右
+                arm_moveit_publisher.y = -arm_scale_moveit * joy_msg->askForAxes(arm_moveit_left_right); //按键左右 整体左右
             }
 
             if (std::fabs(joy_msg->askForAxes(arm_moveit_forward)) > 10e-6)
@@ -247,7 +249,7 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
 
             if (std::fabs(joy_msg->askForAxes(arm_control_left_right)) > 10e-6)
             {
-                arm_direct_publisher.twist.linear.y = -arm_scale_direct * joy_msg->askForAxes(arm_control_left_right); //整体大臂左右arm1_bearing_joint
+                arm_direct_publisher.twist.linear.y = arm_scale_direct * joy_msg->askForAxes(arm_control_left_right); //整体大臂左右arm1_bearing_joint
             }
 
             if (std::fabs(joy_msg->askForAxes(arm_control_up_down)) > 10e-6)

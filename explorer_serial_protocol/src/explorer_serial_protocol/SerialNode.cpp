@@ -61,6 +61,7 @@ void ExplorerSerialProtocol::serial_get(::serial::pByteVector stream) {
     return;
 }
 
+//TODO:数据回传的读取
 void ExplorerSerialProtocol::message_send() {
     cout << "message send thread start" << endl;
 

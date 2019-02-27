@@ -81,8 +81,8 @@ void DiffDriveController::update(const ros::Time &time, const ros::Duration &per
     double current_left_vel = left_wheel_joint_[left_wheel_name_[0]].getVelocity();
     double current_right_vel = right_wheel_joint_[right_wheel_name_[0]].getVelocity();
 
-    ROS_INFO_STREAM("current left_wheel_vel = " << current_left_vel << "      "
-                                                << "current_right_vel = " << current_right_vel);
+    //ROS_INFO_STREAM("current left_wheel_vel = " << current_left_vel << "      "
+                                                //<< "current_right_vel = " << current_right_vel);
 
     if (dt > cmd_vel_timeout_)
     {
@@ -101,8 +101,8 @@ void DiffDriveController::update(const ros::Time &time, const ros::Duration &per
     // right_up_wheel_vel = right_down_wheel_vel = (x_vel + angular_z *wheel_separation_ * raw_param / 2.0) / wheel_radius_ * wheel_radius_multiplier_;
     //小车解算 直接忽略y轴速度
     double left_up_wheel_vel = (current_command_.linear_x_vel + current_command_.linear_y_vel - current_command_.angular_z_vel * wheel_separation_ * raw_param / 2.0) / wheel_radius_ * wheel_radius_multiplier_;
-    //double left_down_wheel_vel = (current_command_.linear_x_vel + current_command_.linear_y_vel - current_command_.angular_z_vel * wheel_separation_ * raw_param / 2.0) / wheel_radius_ * wheel_radius_multiplier_;
-    double left_down_wheel_vel = current_command_.linear_z_vel; //用来重启底盘
+    double left_down_wheel_vel = (current_command_.linear_x_vel + current_command_.linear_y_vel - current_command_.angular_z_vel * wheel_separation_ * raw_param / 2.0) / wheel_radius_ * wheel_radius_multiplier_;
+    //double left_down_wheel_vel = current_command_.linear_z_vel; //用来重启底盘
                                                                 //double right_up_wheel_vel = (current_command_.linear_x_vel ) / wheel_radius_ * wheel_radius_multiplier_;
                                                                 /*double right_up_wheel_vel = (current_command_.linear_x_vel + current_command_.linear_y_vel + current_command_.angular_z_vel * wheel_separation_ * raw_param / 2.0) / wheel_radius_ * wheel_radius_multiplier_;*/
     double right_up_wheel_vel = (current_command_.linear_x_vel - current_command_.linear_y_vel + current_command_.angular_z_vel * wheel_separation_ * raw_param / 2.0) / wheel_radius_ * wheel_radius_multiplier_;

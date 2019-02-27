@@ -241,7 +241,7 @@ void ExplorerHardware::write(ros::Time current_time, ros::Duration period)
     float back_vice_wheel_angular = std::max(fabs(vice_wheel_cmd_["left_down_fin_base_joint"]),
                                              fabs(vice_wheel_cmd_["right_down_fin_base_joint"]));
 
-    ROS_INFO_STREAM(" VEL = " << left_wheel_vel << " vel2 =  " << right_wheel_vel << " angular3 = " << front_vice_wheel_angular << " angular 4 = " << back_vice_wheel_angular);
+    //ROS_INFO_STREAM(" VEL = " << left_wheel_vel << " vel2 =  " << right_wheel_vel << " angular3 = " << front_vice_wheel_angular << " angular 4 = " << back_vice_wheel_angular);
 
     //for our robot , you can not control the arm , wheel when you are controling
     //the wheels and the vice wheels
