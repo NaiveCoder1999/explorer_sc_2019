@@ -25,9 +25,9 @@ explorer_arm_controller:
       pt2_pt1_joint: 0.0
       rotate_joint: 0.0
       gripper_joint: 1.57
-      finger1_joint: 0.1396
-      finger2_joint: 0.1396
-      finger3_joint: -0.1396
+      finger1_joint: 0.0
+      finger2_joint: 0.0
+      finger3_joint: 0.0
 # 这是机械臂的左侧位置限制
     left_limit:
       arm1_bearing_joint: -1.57

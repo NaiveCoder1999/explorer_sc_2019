@@ -119,11 +119,16 @@ void ArmController::jointStateSub(const geometry_msgs::TwistStamped &msg)
                                       + msg.twist.angular.z);
 }
 
+
 //爪子开合控制
 void ArmController::gripperStateSub(const std_msgs::Float32 &ptr)
 {
     double static const cnt = 0.07;
     joint_map["gripper_joint"]->setAim(joint_map["gripper_joint"]->getNowPose() + ptr.data);
+    //手动拟合爪子...
+    joint_map["finger1_joint"]->setAim(-0.68 * (joint_map["gripper_joint"]->getNowPose() + ptr.data) + 1.18);
+    joint_map["finger2_joint"]->setAim(-0.68 * (joint_map["gripper_joint"]->getNowPose() + ptr.data) + 1.18);
+    joint_map["finger3_joint"]->setAim(0.68 * (joint_map["gripper_joint"]->getNowPose() + ptr.data) - 1.18);
 }
 
 //机械臂位姿重置
@@ -191,7 +196,13 @@ void ArmController::resetStateSub(const explorer_msgs::explorer_reset &ptr)
             //第二步,大臂转正,复位小臂
             
             queue.push_back(std::make_pair(std::string("arm1_bearing_joint"), joint_map["arm1_bearing_joint"]->getResetPose()));
+
             queue.push_back(std::make_pair(std::string("gripper_joint"), joint_map["gripper_joint"]->getResetPose()));
+
+            queue.push_back(std::make_pair(std::string("finger1_joint"), joint_map["finger1_joint"]->getResetPose()));
+            queue.push_back(std::make_pair(std::string("finger2_joint"), joint_map["finger2_joint"]->getResetPose()));
+            queue.push_back(std::make_pair(std::string("finger3_joint"), joint_map["finger3_joint"]->getResetPose()));
+
             queue.push_back(std::make_pair(std::string("rotate_joint"), joint_map["rotate_joint"]->getResetPose()));
             queue.push_back(std::make_pair(std::string("pt2_pt1_joint"), joint_map["pt2_pt1_joint"]->getResetPose()));
             queue.push_back(std::make_pair(std::string("pt1_arm_joint"), joint_map["pt1_arm_joint"]->getResetPose()));
@@ -234,7 +245,8 @@ void ArmController::resetStateSub(const explorer_msgs::explorer_reset &ptr)
        queue.clear();
     }
 
-    else if (ptr.reset_paws)
+    //NOT USED YET
+    else if (ptr.reset_gripper)
     {
         joint_map["rotate_joint"]->readyForResetPose();
         joint_map["gripper_joint"]->setAim(1.57);

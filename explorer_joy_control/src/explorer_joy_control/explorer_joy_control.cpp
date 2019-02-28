@@ -48,18 +48,18 @@ ExplorerTeleop::ExplorerTeleop() : ph_("~"),
     arm_moveit_control_button(joy_msg->L2),
     // 机械臂位置移动指令
     //机械臂整体
-    arm_control_forward_back(joy_msg->up_down), //小臂的移动
-    arm_control_up_down(joy_msg->left_axes_up_down),                //大臂上下
-    arm_control_left_right(joy_msg->left_axes_left_right),          //大臂左右
+    arm_control_forward_back(joy_msg->left_axes_up_down), //小臂的移动
+    arm_control_up_down(joy_msg->up_down),                //大臂上下
+    arm_control_left_right(joy_msg->left_right),          //大臂左右
     // 机械臂视角转动指令
     camera_control_up_down(-joy_msg->right_axes_up_down),     //第一个摆动
-    camera_control_rotate(joy_msg->right_button_left_right), //第一个旋转
+    camera_control_rotate(joy_msg->left_axes_left_right), //第一个旋转，摄像头旋转
     // 机械臂复位指令(依照设定,包括视角复位)
     arm_reset_button(joy_msg->right_axes_button),
     // 视角复位指令
     camera_reset_button(joy_msg->left_axes_button),
     // 爪子开合指令,button2与button4
-    gripper_control_open_close(joy_msg->left_right),
+    gripper_control_open_close(joy_msg->right_button_left_right),
     // 爪子旋转指令
     gripper_control_rotate(joy_msg->right_axes_left_right),
     gripper_reset_left(joy_msg->button1),gripper_reset_right(joy_msg->button3),
@@ -301,7 +301,7 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
             reset_pub.publish(reset_msg);
         }
 
-        //NOT USED YET
+        
         else if (joy_msg->askForButton(camera_reset_button))
         {
             ROS_INFO("camera reset");
