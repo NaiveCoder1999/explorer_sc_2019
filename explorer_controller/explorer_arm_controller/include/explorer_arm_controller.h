@@ -4,7 +4,7 @@
 #include <controller_interface/controller.h>
 #include <hardware_interface/joint_command_interface.h>
 #include <pluginlib/class_list_macros.h>
-#include <explorer_msgs/explorer_arm.h>
+//#include <explorer_msgs/explorer_arm.h>
 #include <explorer_msgs/explorer_reset.h>
 #include <std_msgs/Float32.h>
 #include <geometry_msgs/TwistStamped.h>

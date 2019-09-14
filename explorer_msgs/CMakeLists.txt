@@ -49,12 +49,12 @@ find_package(catkin REQUIRED COMPONENTS
    explorer_agreement.msg
    explorer_message.msg
    explorer_vice_wheel.msg
-   explorer_arm.msg
    explorer_joint.msg
-   explorer_reset.msg
+   explorer_arm_reset.msg
+   explorer_camera_reset.msg
    explorer_low_level_data.msg
+   explorer_reset.msg
    explorer_imu.msg
-   explorer_tem.msg
    explorer_co2.msg
    explorer_vice_reset.msg
    explorer_moveit_gripper.msg

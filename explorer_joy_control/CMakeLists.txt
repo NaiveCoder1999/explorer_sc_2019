@@ -82,9 +82,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES explorer_joy_control
-#  CATKIN_DEPENDS roscpp rospy
+INCLUDE_DIRS include
+LIBRARIES explorer_joy_control
+CATKIN_DEPENDS roscpp rospy explorer_msgs
 #  DEPENDS system_lib
 )
 
@@ -95,14 +95,11 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-	include
+	include/${PROJECT_NAME}
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
-add_library(explorer_joy_control_lib
-  src/${PROJECT_NAME}/explorer_joy_control.cpp
-)
 
 ## Declare a cpp executable
 # add_executable(explorer_joy_control_node src/explorer_joy_control_node.cpp)
@@ -163,14 +160,15 @@ add_library(explorer_joy_control_lib
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-add_dependencies(explorer_joy_control_lib explorer_msgs_generate_messages)
 add_executable(explorer_joy_control 
-src/main.cpp)
-target_link_libraries(explorer_joy_control ${catkin_LIBRARIES} explorer_joy_control_lib)
+src/main.cpp
+src/${PROJECT_NAME}/explorer_joy_control.cpp
+)
+target_link_libraries(explorer_joy_control ${catkin_LIBRARIES})
 # 添加对explorer_msgs的依赖,保证explorer_msgs优先编译
-add_dependencies(explorer_joy_control explorer_msgs_generate_messages)
+add_dependencies(explorer_joy_control explorer_msgs_gencpp)
 add_executable(explorer_joy_explainer 
 src/explorer_joy_explainer_checker.cpp)
 target_link_libraries(explorer_joy_explainer ${catkin_LIBRARIES})
 # 添加对explorer_msgs的依赖,保证explorer_msgs优先编译
-add_dependencies(explorer_joy_explainer explorer_msgs_generate_messages)
+add_dependencies(explorer_joy_explainer explorer_msgs_gencpp)

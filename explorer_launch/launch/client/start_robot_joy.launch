@@ -2,6 +2,10 @@
 <!-- 启用机器人手柄的驱动和转换节点 -->
 <launch>
 	<node name="joy" pkg="joy" type="joy_node">
+		<param name="dev" value="/dev/input/js0" />
+		<!-- value == 控制器(手柄)的串口位置,一般是js0或者js1 -->
+	</node>
+		<node name="joy_second" pkg="joy" type="joy_node">
 		<param name="dev" value="/dev/input/js1" />
 		<!-- value == 控制器(手柄)的串口位置,一般是js0或者js1 -->
 	</node>

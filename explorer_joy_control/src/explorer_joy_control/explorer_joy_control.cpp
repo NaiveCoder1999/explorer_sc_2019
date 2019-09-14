@@ -2,122 +2,119 @@
 #include <sstream>
 using namespace std;
 
-ExplorerTeleop::ExplorerTeleop() : ph_("~"),
+ExplorerTeleop::ExplorerTeleop()
+    : ph_("~"),
 
-    basic_mode_button(joy_msg->R1),
-    // 速度切换按钮，可切换三挡
-    full_speed_button(joy_msg->button3), mid_speed_button(joy_msg->button2), slow_speed_button(joy_msg->button1),
-    speed_switch_button(joy_msg->L1), 
-    //speed_front_back(joy_msg->up_down), speed_left_right(joy_msg->left_right),
-    // 副履带简易控制指令
-    //front_vice_wheel_up_down(joy_msg->up_down), back_vice_wheel_up(joy_msg->button1),back_vice_wheel_down(joy_msg->button3),
-    left_front_vice_wheel_up_down(joy_msg->up_down),
-    left_back_vice_wheel_up_down(joy_msg->left_right),
-    right_front_vice_wheel_up(joy_msg->button1),
-    right_front_vice_wheel_down(joy_msg->button3),
-    right_back_vice_wheel_up(joy_msg->button2),
-    right_back_vice_wheel_down(joy_msg->button4),
-    //right_back_vice_wheel_up_down(joy_msg->right_axes_up_down),
-    //right_front_vice_wheel_up_down(joy_msg->right_axes_up_down),
+      basic_mode_button(joy_msg->R1),
+      // 速度切换按钮，可切换三挡
+      full_speed_button(joy_msg->button3),
+      mid_speed_button(joy_msg->button2),
+      slow_speed_button(joy_msg->button1),
+      speed_switch_button(joy_msg->R2),
 
-    // 副履带平行指令
-    /*front_vice_wheel_parallel(joy_msg->button2),  back_vice_wheel_parallel(joy_msg->button4),
-    vice_wheel_mode_button(joy_msg->L2),*/
+      // 副履带简易控制指令
+      left_front_vice_wheel_up_down(joy_msg->up_down),
+      left_back_vice_wheel_up_down(joy_msg->left_right),
+      right_front_vice_wheel_up(joy_msg->button1),
+      right_front_vice_wheel_down(joy_msg->button3),
+      right_back_vice_wheel_up(joy_msg->button2),
+      right_back_vice_wheel_down(joy_msg->button4),
 
-    // 用于重新开启底盘
-    //relive(joy_msg->button4),
-    // 车辆前进后退指令
-    linear_front_back(joy_msg->left_axes_up_down),
-    //左右旋转，因更换轮子，左右平移已废弃
-    angular_left_right(joy_msg->left_axes_left_right),
+      // 车辆前进后退指令
+      linear_front_back(joy_msg->left_axes_up_down),
+      //左右旋转，因更换轮子，左右平移已废弃
+      angular_left_right(joy_msg->left_axes_left_right),
 
-    // 机械臂相关
-    //机械臂moveit解算与控制，待实现
-    arm_moveit_up_down(joy_msg->up_down),
-    arm_moveit_left_right(joy_msg->left_right),
-    //arm_moveit_back(joy_msg->right_axes_up_down),
-    arm_moveit_forward(joy_msg->left_axes_up_down),
-    arm_paw_moveit_left_right(joy_msg->left_axes_left_right),
-    arm_paw_moveit_up_down(joy_msg->right_axes_up_down),
-    //arm_paw_rotateleft(joy_msg->right_axes_left_right),
-    //arm_paw_rotateright(joy_msg ->button2),
+      //对应摄像头控制模式
+      camera_control_button(joy_msg->R1),
+      //摄像头舵机控制指令
+      front_camera_up_down(joy_msg->right_axes_up_down),
+      front_camera_left_right(joy_msg->right_axes_left_right),
+      rear_camera_up_down(joy_msg->left_axes_up_down),
+      rear_camera_left_right(joy_msg->left_axes_left_right),
+      front_camera_reset_button(joy_msg->right_axes_button),
+      rear_camera_reset_button(joy_msg->left_axes_button),
 
-    // 对应机械臂控制按钮
-    arm_control_button(joy_msg->L1),
-    // 机械臂直接控制
-    arm_moveit_control_button(joy_msg->L2),
-    // 机械臂位置移动指令
-    //机械臂整体
-    arm_control_forward_back(joy_msg->left_axes_up_down), //小臂的移动
-    arm_control_up_down(joy_msg->up_down),                //大臂上下
-    arm_control_left_right(joy_msg->left_right),          //大臂左右
-    // 机械臂视角转动指令
-    camera_control_up_down(-joy_msg->right_axes_up_down),     //第一个摆动
-    camera_control_rotate(joy_msg->left_axes_left_right), //第一个旋转，摄像头旋转
-    // 机械臂复位指令(依照设定,包括视角复位)
-    arm_reset_button(joy_msg->right_axes_button),
-    // 视角复位指令
-    camera_reset_button(joy_msg->left_axes_button),
-    // 爪子开合指令,button2与button4
-    gripper_control_open_close(joy_msg->right_button_left_right),
-    // 爪子旋转指令
-    gripper_control_rotate(joy_msg->right_axes_left_right),
-    gripper_reset_left(joy_msg->button1),gripper_reset_right(joy_msg->button3),
-    // 机械臂移动速度参数，更换舵机电机时要根据实际效果调整此处及yaml文件
-    arm_scale(2.5),
-    arm_scale_direct(2.5), //单纯调大数值对增加转动流畅度影响不大
-    // 机械臂视角转动速度参数
-    arm_camera_scale(0.07),
-    arm_scale_moveit(0.004), //TODO:测试时待调整
-    arm_scale_moveit1(0.03),
-    vice_whell_(2.5)
-    
+      // 机械臂相关
+      //机械臂moveit解算与控制，待实现
+      arm_moveit_up_down(joy_msg->up_down),
+      arm_moveit_left_right(joy_msg->left_right),
+      // arm_moveit_back(joy_msg->right_axes_up_down),
+      arm_moveit_forward(joy_msg->left_axes_up_down),
+      arm_paw_moveit_left_right(joy_msg->left_axes_left_right),
+      arm_paw_moveit_up_down(joy_msg->right_axes_up_down),
+      // arm_paw_rotateleft(joy_msg->right_axes_left_right),
+      // arm_paw_rotateright(joy_msg ->button2),
+
+      // 对应机械臂控制按钮
+      arm_control_button(joy_msg->L1),
+      // 机械臂直接控制
+      arm_moveit_control_button(joy_msg->L2),
+      // 机械臂位置移动指令
+      //机械臂整体
+      arm_control_forward_back(joy_msg->left_axes_up_down), //小臂的移动
+      arm_control_up_down(joy_msg->up_down),                //大臂上下
+      arm_control_left_right(joy_msg->left_right),          //大臂左右
+      // 机械臂视角转动指令
+      arm_camera_control_up_down(-joy_msg->right_axes_up_down), //第一个摆动
+      arm_camera_control_rotate(
+          joy_msg->left_axes_left_right), //第一个旋转，摄像头旋转
+      // 机械臂复位指令(依照设定,包括视角复位)
+      arm_reset_button(joy_msg->right_axes_button),
+      // 视角复位指令
+      arm_camera_reset_button(joy_msg->left_axes_button),
+      // 爪子开合指令,button2与button4
+      gripper_control_open_close(joy_msg->right_button_left_right),
+      // 爪子旋转指令
+      gripper_control_rotate(joy_msg->right_axes_left_right),
+      gripper_reset_left(joy_msg->button1),
+      gripper_reset_right(joy_msg->button3),
+      // 机械臂移动速度参数，更换舵机电机时要根据实际效果调整此处及yaml文件
+      arm_scale(2.5),
+      arm_scale_direct(2.5), //单纯调大数值对增加转动流畅度影响不大
+      // 机械臂视角转动速度参数
+      arm_camera_scale(0.07),
+      camera_scale(1.0),
+      arm_scale_moveit(0.004), // TODO:测试时待调整
+      arm_scale_moveit1(0.03),
+      vice_whell_(2.5)
+
 {
     joy_msg = new autoJoyExplainer();
     joy_sub = nh_.subscribe<sensor_msgs::Joy>("joy", 2, &ExplorerTeleop::joyCallback, this);
 
     vel_pub = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
 
-    vice_change = nh_.subscribe<std_msgs::Float32>("vice_speed_change", 2, &ExplorerTeleop::vice_wheel_speed_change, this);
-    vice_wheel_reset_pub = nh_.advertise<explorer_msgs::explorer_vice_reset>("explorer_vice_wheel_reset", 1);//副履带位置重置信号
+    //vice_change = nh_.subscribe<std_msgs::Float32>("vice_speed_change", 2, &ExplorerTeleop::vice_wheel_speed_change, this);
+    vice_wheel_reset_pub = nh_.advertise<explorer_msgs::explorer_vice_reset>("explorer_vice_wheel_reset", 1); //副履带位置重置信号
     vice_wheel_pub = nh_.advertise<explorer_msgs::explorer_vice_wheel>("explorer_vice_wheel", 1);
 
-    arm_pub = nh_.advertise<explorer_msgs::explorer_moveit_gripper>("explorer_moveit_gripper", 1);
-    arm_direct_pub = nh_.advertise<geometry_msgs::TwistStamped>("explorer_arm_direct", 1); 
+    camera_pub = nh_.advertise<geometry_msgs::Twist>("explorer_camera", 1);
+    camera_reset_pub = nh_.advertise<explorer_msgs::explorer_camera_reset>("explorer_camera_reset", 1);
 
-    reset_pub = nh_.advertise<explorer_msgs::explorer_reset>("explorer_reset", 1); 
+    arm_pub = nh_.advertise<explorer_msgs::explorer_moveit_gripper>("explorer_moveit_gripper", 1);
+    arm_direct_pub = nh_.advertise<geometry_msgs::TwistStamped>("explorer_arm_direct", 1);
+    reset_pub = nh_.advertise<explorer_msgs::explorer_reset>("explorer_reset", 1);
     gripper_pub = nh_.advertise<std_msgs::Float32>("explorer_gripper", 1);
 
     //此处调整消息发布的频率，当前为10Hz
-    timer = ph_.createTimer(ros::Duration(0.1), boost::bind(&ExplorerTeleop::publishControl, this));
-    ph_.param("vice_scale_init", vice_scale, 1.2);
-    ph_.param("vice_scale_full", vice_scale_full, 1.6);
-    ph_.param("vice_scale_mid", vice_scale_mid, 1.2);
-    ph_.param("vice_scale_slow", vice_scale_slow, 0.8);
+    timer = ph_.createTimer(ros::Duration(1 / 30.0), boost::bind(&ExplorerTeleop::publishControl, this));
+    //此处副履带系数已经弃用
+    ph_.param("vice_scale_init", vice_scale, 2.4);
+    ph_.param("vice_scale_full", vice_scale_full, 3.2);
+    ph_.param("vice_scale_mid", vice_scale_mid, 2.4);
+    ph_.param("vice_scale_slow", vice_scale_slow, 1.6);
 
-    ph_.param("l_scale_init", l_scale, 0.9); //0.3 0.6 1.6
-    ph_.param("l_scale_full", l_scale_full, 1.2);
-    ph_.param("l_scale_mid", l_scale_mid, 0.9);
-    ph_.param("l_scale_slow", l_scale_slow, 0.6);
+    ph_.param("l_scale_init", l_scale, 7.0); // 0.3 0.6 1.6
+    ph_.param("l_scale_full", l_scale_full, 9.0);
+    ph_.param("l_scale_mid", l_scale_mid, 7.0);
+    ph_.param("l_scale_slow", l_scale_slow, 5.0);
 
-    ph_.param("a_scale_init", a_scale, 2.0); // 0.1 0.4 0.6
-    ph_.param("a_scale_full", a_scale_full, 3.0);
-    ph_.param("a_scale_mid", a_scale_mid, 2.0);
-    ph_.param("a_scale_slow", a_scale_slow, 1.5);
-}
-
-void ExplorerTeleop::vice_wheel_speed_change(std_msgs::Float32 data) {
-    vice_scale = data.data;
-}
-
-void ExplorerTeleop::front_speed_change(std_msgs::Float32 data)
-{
-    l_scale = data.data;
-}
-
-void ExplorerTeleop::rotation_speed_change(std_msgs::Float32 data)
-{
-    a_scale = data.data;
+    //此处数值为下位机发送值的3倍
+    ph_.param("a_scale_init", a_scale, 18.0); // 0.1 0.4 0.6
+    ph_.param("a_scale_full", a_scale_full, 24.0);
+    ph_.param("a_scale_mid", a_scale_mid, 18.0);
+    ph_.param("a_scale_slow", a_scale_slow, 12.0);
 }
 
 ExplorerTeleop::~ExplorerTeleop()
@@ -130,81 +127,172 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
     joy_msg->getMessage(joy);
     messageClean();
 
-    if (joy_msg->askForButton(basic_mode_button)){//运动模式
-            if (joy_msg->askForButton(speed_switch_button)){
-                    if (joy_msg->askForButton(full_speed_button)){ //速度调节按钮
-                            l_scale = l_scale_full;
-                            a_scale = a_scale_full;
-                            vice_scale  =    vice_scale_full;
-                        }   
+    if (joy_msg->askForButton(basic_mode_button))
+    { //运动模式
+        if (joy_msg->askForButton(speed_switch_button))
+        {
+            if (joy_msg->askForButton(full_speed_button))
+            { //速度调节按钮
+                l_scale = l_scale_full;
+                a_scale = a_scale_full;
+                vice_scale = vice_scale_full;
+                ROS_INFO("set full speed");
+            }
 
-                    if (joy_msg->askForButton(mid_speed_button)){ 
-                            l_scale = l_scale_mid;
-                            a_scale = a_scale_mid;
-                            vice_scale  =    vice_scale_mid;
-                        }
+            if (joy_msg->askForButton(mid_speed_button))
+            {
+                l_scale = l_scale_mid;
+                a_scale = a_scale_mid;
+                vice_scale = vice_scale_mid;
+                ROS_INFO("set default speed");
+            }
 
-                    if (joy_msg->askForButton(slow_speed_button)){  
-                            l_scale = l_scale_slow;
-                            a_scale = a_scale_slow;
-                            vice_scale  =    vice_scale_mid;
-                        }
-                }
+            if (joy_msg->askForButton(slow_speed_button))
+            {
+                l_scale = l_scale_slow;
+                a_scale = a_scale_slow;
+                vice_scale = vice_scale_mid;
+                ROS_INFO("set low speed");
+            }
+        }
 
+        else
+        {
+            /**
+            //    以下控制已经颠倒前后
             //整车前后
-            if (std::fabs(joy_msg->askForAxes(linear_front_back)) > 10e-6){
-                    vel_publisher.linear.x = joy_msg->askForAxes(linear_front_back) * l_scale;
-                }
+            if (std::fabs(joy_msg->askForAxes(linear_front_back)) > 10e-6)
+            {
+                vel_publisher.linear.x = -(joy_msg->askForAxes(linear_front_back)) * l_scale;
+            }
 
             //整车旋转，无麦轮无法左右平移
-            if (std::fabs(joy_msg->askForAxes(angular_left_right)) > 10e-6){
-                    vel_publisher.angular.z = -joy_msg->askForAxes(angular_left_right) * a_scale;
-                }   
-            /**
+            if (std::fabs(joy_msg->askForAxes(angular_left_right)) > 10e-6)
+            {
+                vel_publisher.angular.z = joy_msg->askForAxes(angular_left_right) * a_scale;
+            }
+
             //左前副履带单独移动,axes组按钮
-            if(std::fabs(joy_msg->askForAxes(left_front_vice_wheel_up_down))> 10e-6) {
-                        vice_wheel_publisher.front_left_wheel_angular = -(joy_msg->askForAxes(left_front_vice_wheel_up_down)) * vice_whell_;
-                }
+            if (std::fabs(joy_msg->askForAxes(left_front_vice_wheel_up_down)) > 10e-6)
+            {
+                vice_wheel_publisher.back_right_wheel_angular = -(joy_msg->askForAxes(left_front_vice_wheel_up_down)) * vice_whell_;
+            }
 
             //左后副履带单独移动
-            if(std::fabs(joy_msg->askForAxes(left_back_vice_wheel_up_down))> 10e-6) {
-                    vice_wheel_publisher.back_left_wheel_angular = -(joy_msg->askForAxes(left_back_vice_wheel_up_down)) * vice_whell_;
-                }
+            if (std::fabs(joy_msg->askForAxes(left_back_vice_wheel_up_down)) > 10e-6)
+            {
+                vice_wheel_publisher.front_right_wheel_angular = joy_msg->askForAxes(left_back_vice_wheel_up_down) * vice_whell_;
+            }
 
             //右前副履带上移
-            if(std::fabs(joy_msg->askForButton(right_front_vice_wheel_up)) > 10e-6) {
-                    vice_wheel_publisher.front_right_wheel_angular = joy_msg->askForButton(right_front_vice_wheel_up) * vice_whell_;
-                }
+            if (std::fabs(joy_msg->askForButton(right_front_vice_wheel_up)) > 10e-6)
+            {
+                vice_wheel_publisher.back_left_wheel_angular = -(joy_msg->askForButton(right_front_vice_wheel_up)) * vice_whell_;
+            }
 
             //右前副履带下移
-            if(std::fabs(joy_msg->askForButton(right_front_vice_wheel_down))> 10e-6) {
-                    vice_wheel_publisher.front_right_wheel_angular = -(joy_msg->askForButton(right_front_vice_wheel_down)) * vice_whell_;
-                }
+            if (std::fabs(joy_msg->askForButton(right_front_vice_wheel_down)) > 10e-6)
+            {
+                vice_wheel_publisher.back_left_wheel_angular = joy_msg->askForButton(right_front_vice_wheel_down) * vice_whell_;
+            }
 
             //右后副履带上移
-            if(std::fabs(joy_msg->askForButton(right_back_vice_wheel_up))> 10e-6) {
-                    vice_wheel_publisher.back_right_wheel_angular = joy_msg->askForButton(right_back_vice_wheel_up) * vice_whell_;
-                }
+            if (std::fabs(joy_msg->askForButton(right_back_vice_wheel_up)) > 10e-6)
+            {
+                vice_wheel_publisher.front_left_wheel_angular = -(joy_msg->askForButton(right_back_vice_wheel_up)) * vice_whell_;
+            }
             //右后副履带下移
-            if(std::fabs(joy_msg->askForButton(right_back_vice_wheel_down) )> 10e-6) {
-                    vice_wheel_publisher.back_right_wheel_angular = -(joy_msg->askForButton(right_back_vice_wheel_down)) * vice_whell_;
-                }
-            
-
-            //重启底盘，手柄数字4,TODO
-            if (std::fabs(joy_msg->askForButton(joy_msg->button1))> 10e-6
-                    && std::fabs(joy_msg->askForButton(joy_msg->button2))> 10e-6
-                        && std::fabs(joy_msg->askForButton(joy_msg->button3))> 10e-6
-                            && std::fabs(joy_msg->askForButton(joy_msg->button4))> 10e-6){
-                    vel_publisher.linear.z = joy_msg->askForButton(relive);
-                }
+            if (std::fabs(joy_msg->askForButton(right_back_vice_wheel_down)) > 10e-6)
+            {
+                vice_wheel_publisher.front_left_wheel_angular = joy_msg->askForButton(right_back_vice_wheel_down) * vice_whell_;
+            }
             **/
+            //整车前后
+            if (std::fabs(joy_msg->askForAxes(linear_front_back)) > 10e-6)
+            {
+                vel_publisher.linear.x = joy_msg->askForAxes(linear_front_back) * l_scale;
+            }
+
+            //整车旋转，无麦轮无法左右平移
+            if (std::fabs(joy_msg->askForAxes(angular_left_right)) > 10e-6)
+            {
+                vel_publisher.angular.z = joy_msg->askForAxes(angular_left_right) * a_scale;
+            }
+
+            //左前副履带单独移动,axes组按钮
+            if (std::fabs(joy_msg->askForAxes(left_front_vice_wheel_up_down)) > 10e-6)
+            {
+                vice_wheel_publisher.front_left_wheel_angular = -(joy_msg->askForAxes(left_front_vice_wheel_up_down)) * vice_whell_;
+            }
+
+            //左后副履带单独移动
+            if (std::fabs(joy_msg->askForAxes(left_back_vice_wheel_up_down)) > 10e-6)
+            {
+                vice_wheel_publisher.back_left_wheel_angular = joy_msg->askForAxes(left_back_vice_wheel_up_down) * vice_whell_;
+            }
+
+            //右前副履带上移
+            if (std::fabs(joy_msg->askForButton(right_front_vice_wheel_up)) > 10e-6)
+            {
+                vice_wheel_publisher.front_right_wheel_angular = -(joy_msg->askForButton(right_front_vice_wheel_up)) * vice_whell_;
+            }
+
+            //右前副履带下移
+            if (std::fabs(joy_msg->askForButton(right_front_vice_wheel_down)) > 10e-6)
+            {
+                vice_wheel_publisher.front_right_wheel_angular = joy_msg->askForButton(right_front_vice_wheel_down) * vice_whell_;
+            }
+
+            //右后副履带上移
+            if (std::fabs(joy_msg->askForButton(right_back_vice_wheel_up)) > 10e-6)
+            {
+                vice_wheel_publisher.back_right_wheel_angular = -(joy_msg->askForButton(right_back_vice_wheel_up)) * vice_whell_;
+            }
+            //右后副履带下移
+            if (std::fabs(joy_msg->askForButton(right_back_vice_wheel_down)) > 10e-6)
+            {
+                vice_wheel_publisher.back_right_wheel_angular = joy_msg->askForButton(right_back_vice_wheel_down) * vice_whell_;
+            }
+            //摄像头舵机控制
+            if (std::fabs(joy_msg->askForAxes(front_camera_up_down)) > 10e-6)
+            {
+                camera_joint_msg.linear.x = joy_msg->askForAxes(front_camera_up_down) * camera_scale; //摄像头上下转
+            }
+
+            if (std::fabs(joy_msg->askForAxes(front_camera_left_right)) > 10e-6)
+            {
+                camera_joint_msg.linear.y = joy_msg->askForAxes(front_camera_left_right) * camera_scale; //摄像头左右转
+            }
+
+            if (std::fabs(joy_msg->askForAxes(rear_camera_up_down)) > 10e-6)
+            {
+                camera_joint_msg.angular.x = joy_msg->askForAxes(rear_camera_up_down) * camera_scale;
+            }
+
+            if (std::fabs(joy_msg->askForAxes(rear_camera_left_right)) > 10e-6)
+            {
+                camera_joint_msg.angular.y = joy_msg->askForAxes(rear_camera_left_right) * camera_scale;
+            }
+
+            //重启底盘副履带，右摇杆按下
+            if (joy_msg->askForButton(arm_reset_button))
+            {
+                //ROS_INFO("vice wheel reset");
+                // explorer_msgs::explorer_vice_reset reset_msg;
+                vel_publisher.linear.z = joy_msg->askForButton(arm_reset_button);
+                vice_reset_publisher.front_vice_wheel_reset = true;
+                vice_reset_publisher.back_vice_wheel_reset = true;
+                // vice_wheel_reset_pub.publish(vice_reset_publisher);
+            }
         }
+    }
 
     if (joy_msg->askForButton(arm_control_button))
     { //机械臂控制
+
         if (joy_msg->askForButton(arm_moveit_control_button))
-        { //需要具体在rvi中根据方位在测试 现阶段 button前正、左旋为正
+        { //需要具体在rvi中根据方位在测试, 现阶段 button前正、左旋为正
+
             if (std::fabs(joy_msg->askForAxes(arm_moveit_up_down)) > 10e-6)
             {
                 arm_moveit_publisher.z = arm_scale_moveit * joy_msg->askForAxes(arm_moveit_up_down); //按键上下 整体上下
@@ -216,8 +304,8 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
             }
 
             if (std::fabs(joy_msg->askForAxes(arm_moveit_forward)) > 10e-6)
-            { 
-                arm_moveit_publisher.x = arm_scale_moveit * (joy_msg->askForAxes(arm_moveit_forward));//左轴上下 整体前进后退
+            {
+                arm_moveit_publisher.x = arm_scale_moveit * joy_msg->askForAxes(arm_moveit_forward); //左轴上下 整体前进后退
             }
 
             if (std::fabs(joy_msg->askForAxes(arm_paw_moveit_up_down)) > 10e-6)
@@ -232,12 +320,12 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
 
             if (std::fabs(joy_msg->askForAxes(gripper_control_rotate)) > 10e-6)
             { //右轴左右 左右旋转
-                arm_moveit_publisher.rotate = -arm_scale_moveit1 * (joy_msg->askForAxes(gripper_control_rotate));
+                arm_moveit_publisher.rotate = -arm_scale_moveit1 * joy_msg->askForAxes(gripper_control_rotate);
             }
 
             if (std::fabs(joy_msg->askForAxes(gripper_control_open_close)) > 10e-6)
             { //爪子开合
-                gripper_move_msg.data = arm_camera_scale* joy_msg->askForAxes(gripper_control_open_close) ;
+                gripper_move_msg.data = arm_camera_scale * joy_msg->askForAxes(gripper_control_open_close);
             }
         }
         else
@@ -257,23 +345,25 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
                 arm_direct_publisher.twist.linear.x = -arm_scale_direct * joy_msg->askForAxes(arm_control_up_down); //整体大臂上下arm2_arm1_joint
             }
 
-            if (std::fabs(joy_msg->askForAxes(camera_control_up_down)) > 10e-6)
+            if (std::fabs(joy_msg->askForAxes(arm_camera_control_up_down)) >
+                10e-6)
             {
-                arm_direct_publisher.twist.angular.x = -arm_camera_scale * joy_msg->askForAxes(camera_control_up_down); //爪子上下摆动pt2_pt1_joint
+                arm_direct_publisher.twist.angular.x = arm_camera_scale * joy_msg->askForAxes(arm_camera_control_up_down); //爪子上下摆动pt2_pt1_joint
             }
 
-            if (std::fabs(joy_msg->askForAxes(camera_control_rotate)) > 10e-6)
+            if (std::fabs(joy_msg->askForAxes(arm_camera_control_rotate)) > 10e-6)
             {
-                arm_direct_publisher.twist.angular.y = arm_camera_scale * joy_msg->askForAxes(camera_control_rotate); //爪子后端旋转pt1_arm_joint
+                arm_direct_publisher.twist.angular.y = -arm_camera_scale * joy_msg->askForAxes(arm_camera_control_rotate); //爪子后端旋转pt1_arm_joint
             }
 
             if (std::fabs(joy_msg->askForAxes(gripper_control_rotate)) > 10e-6)
             {
                 arm_direct_publisher.twist.angular.z = -arm_camera_scale * joy_msg->askForAxes(gripper_control_rotate); //爪子旋转rotate_joint
             }
+
             if (std::fabs(joy_msg->askForAxes(gripper_control_open_close)) > 10e-6)
             {
-                gripper_move_msg.data = -arm_camera_scale * joy_msg->askForAxes(gripper_control_open_close) ;//爪子开合gripper_joint
+                gripper_move_msg.data = -arm_camera_scale * joy_msg->askForAxes(gripper_control_open_close); //爪子开合gripper_joint
             }
         }
 
@@ -301,26 +391,75 @@ void ExplorerTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
             reset_pub.publish(reset_msg);
         }
 
-        
-        else if (joy_msg->askForButton(camera_reset_button))
+        else if (joy_msg->askForButton(arm_camera_reset_button))
         {
-            ROS_INFO("camera reset");
-            explorer_msgs::explorer_reset reset_msg;
-            reset_msg.reset_camera = true;
-            reset_pub.publish(reset_msg);
+            if (joy_msg->askForButton(basic_mode_button))
+            {
+                ROS_INFO("end effector back to left");
+                explorer_msgs::explorer_reset reset_msg;
+                reset_msg.arm_back = true;
+                reset_pub.publish(reset_msg);
+            }
+            else
+            {
+                ROS_INFO("arm camera reset");
+                explorer_msgs::explorer_reset reset_msg;
+                reset_msg.reset_camera = true;
+                reset_pub.publish(reset_msg);
+            }
         }
-        
     }
+    /**
+    /*摄像头舵机控制
+    if (joy_msg->askForButton(camera_control_button))
+    {
+        if (std::fabs(joy_msg->askForAxes(front_camera_up_down)) > 10e-6)
+        {
+            camera_joint_msg.linear.x = joy_msg->askForAxes(front_camera_up_down) * camera_scale; //摄像头上下转
+        }
 
+        if (std::fabs(joy_msg->askForAxes(front_camera_left_right)) > 10e-6)
+        {
+            camera_joint_msg.linear.y = joy_msg->askForAxes(front_camera_left_right) * camera_scale; //摄像头左右转
+        }
+
+        if (std::fabs(joy_msg->askForAxes(rear_camera_up_down)) > 10e-6)
+        {
+            camera_joint_msg.angular.x = joy_msg->askForAxes(rear_camera_up_down) * camera_scale;
+        }
+
+        if (std::fabs(joy_msg->askForAxes(rear_camera_left_right)) > 10e-6)
+        {
+            camera_joint_msg.angular.y = joy_msg->askForAxes(rear_camera_left_right) * camera_scale;
+        }
+
+        if (joy_msg->askForButton(front_camera_reset_button))
+        {
+            ROS_INFO("front camera reset");
+            explorer_msgs::explorer_camera_reset camera_reset_msg;
+            camera_reset_msg.front_camera_reset = true;
+            camera_reset_pub.publish(camera_reset_msg);
+        }
+
+        if (joy_msg->askForButton(rear_camera_reset_button))
+        {
+            ROS_INFO("rear camera reset");
+            explorer_msgs::explorer_camera_reset camera_reset_msg;
+            camera_reset_msg.rear_camera_reset = true;
+            camera_reset_pub.publish(camera_reset_msg);
+        }
+    }
+    **/
 }
 
 /*
  * 消息发布函数
  * 由createTimer函数生成的计时器保证发送
- * 速率 10hz
+ * 速率 30hz
  */
 void ExplorerTeleop::publishControl()
 {
+    //发布与清零主履带速度，防暴走
     geometry_msgs::Twist vel_empty;
     geometry_msgs::Twist vel_empty1;
     vel_empty1.linear.x = vel_empty1.linear.y = vel_empty1.linear.z = 0;
@@ -337,25 +476,10 @@ void ExplorerTeleop::publishControl()
         last_vel_published = vel_publisher;
     }
 
-    explorer_msgs::explorer_vice_wheel vice_empty;
-
-    if (vice_wheel_publisher != vice_empty || last_vice_wheel_published != vice_empty)
-    {
-        vice_wheel_pub.publish(vice_wheel_publisher);
-
-        if (vice_wheel_publisher == vice_empty)
-        {
-            ROS_INFO("publish vice wheel zero");
-        }
-
-        last_vice_wheel_published = vice_wheel_publisher;
-    }
-
+    //发布与清零机械臂角度，防暴走
     explorer_msgs::explorer_moveit_gripper arm_empty;
     geometry_msgs::TwistStamped arm_empty1;
-    /* if (arm_moveit_publisher.x != arm_empty.x || arm_moveit_publisher.y != arm_empty.y||
-        arm_moveit_publisher.up_down != arm_empty.up_down || arm_moveit_publisher.left_right != arm_empty.left_right||
-        arm_moveit_publisher.rotate != arm_empty.rotate) {*/
+
     if (arm_moveit_publisher != arm_empty || last_arm_moveit_published != arm_empty)
     {
         arm_pub.publish(arm_moveit_publisher);
@@ -368,7 +492,8 @@ void ExplorerTeleop::publishControl()
         last_arm_moveit_published = arm_moveit_publisher;
     }
 
-    if (arm_direct_publisher.twist != arm_empty1.twist || last_arm_direct_published.twist != arm_empty1.twist)
+    if (arm_direct_publisher.twist != arm_empty1.twist ||
+        last_arm_direct_published.twist != arm_empty1.twist)
     {
         arm_direct_publisher.header.stamp = ros::Time::now();
         arm_direct_pub.publish(arm_direct_publisher);
@@ -382,30 +507,69 @@ void ExplorerTeleop::publishControl()
     }
 
     std_msgs::Float32 float_empty;
-
     if (gripper_move_msg != float_empty)
     {
         gripper_pub.publish(gripper_move_msg);
     }
 
-    explorer_msgs::explorer_vice_reset reset_empty;
+    //发布与清零副履带角度，防暴走
+    explorer_msgs::explorer_vice_wheel vice_empty;
+    if (vice_wheel_publisher != vice_empty || last_vice_wheel_published != vice_empty)
+    {
+        vice_wheel_pub.publish(vice_wheel_publisher);
 
-    if (vice_reset_publisher != reset_empty || last_vice_reset_published != reset_empty)
+        if (vice_wheel_publisher == vice_empty)
+        {
+            ROS_INFO("publish vice wheel zero");
+        }
+
+        last_vice_wheel_published = vice_wheel_publisher;
+    }
+
+    explorer_msgs::explorer_vice_reset vice_reset_empty;
+    if (vice_reset_publisher != vice_reset_empty || last_vice_reset_published != vice_reset_empty)
     {
         vice_wheel_reset_pub.publish(vice_reset_publisher);
 
-        if (vice_reset_publisher == reset_empty)
+        if (vice_reset_publisher == vice_reset_empty)
         {
             ROS_INFO("vice wheel reset");
         }
 
         last_vice_reset_published = vice_reset_publisher;
     }
+
+    //发布与清零摄像头舵机角度，防暴走
+    geometry_msgs::Twist camera_empty;
+    if (camera_joint_msg != camera_empty || last_camera_joint_msg != camera_empty)
+    {
+        camera_pub.publish(camera_joint_msg);
+
+        if (camera_joint_msg == camera_empty)
+        {
+            //camera_pub.publish(camera_empty);
+            ROS_INFO("camera published zero");
+        }
+        last_camera_joint_msg = camera_joint_msg;
+    }
+    //发布与清零重置消息,这部分没有生效。。判断可能出现了问题
+    explorer_msgs::explorer_camera_reset camera_reset_empty1;
+    if (camera_reset_msg != camera_reset_empty1 || last_camera_reset_msg != camera_reset_empty1)
+    {
+        camera_reset_pub.publish(camera_reset_msg);
+
+        if (camera_reset_msg == camera_reset_empty1)
+        {
+            ROS_INFO("camera reset");
+        }
+
+        last_camera_reset_msg = camera_reset_msg;
+    }
 }
 
 /*
- * 用于清空所有的数据
- * 用于收到新的指令之时
+ * 用于收到新的指令之时清空上一时刻发送的所有的数据
+ * 漏写将会暴走。。
  */
 void ExplorerTeleop::messageClean()
 {
@@ -413,12 +577,16 @@ void ExplorerTeleop::messageClean()
     this->vel_publisher = vel_empty;
     explorer_msgs::explorer_vice_wheel vice_empty;
     this->vice_wheel_publisher = vice_empty;
+    geometry_msgs::Twist camera_empty;
+    this->camera_joint_msg = camera_empty;
     explorer_msgs::explorer_moveit_gripper arm_empty;
     geometry_msgs::TwistStamped arm_empty1;
     this->arm_moveit_publisher = arm_empty;
     this->arm_direct_publisher = arm_empty1;
     std_msgs::Float32 float_empty;
     this->gripper_move_msg = float_empty;
-    explorer_msgs::explorer_vice_reset reset_empty;
-    this->vice_reset_publisher = reset_empty;
+    explorer_msgs::explorer_vice_reset vice_reset_empty;
+    this->vice_reset_publisher = vice_reset_empty;
+    explorer_msgs::explorer_camera_reset camera_reset_empty;
+    this->camera_reset_msg = camera_reset_empty;
 }

@@ -10,28 +10,28 @@
 #include <iostream>
 #include <map>
 #include "explorer_joy_explainer.hpp"
-std::vector< std::string >button_dic;
+std::vector<std::string> button_dic;
 autoJoyExplainer joy_msg;
 
 void joyCallback(const sensor_msgs::Joy::ConstPtr &joy) {
     std::cout << "get" << std::endl;
     joy_msg.getMessage(joy);
 
-    for (int i = 0; i <  joy_msg.button_size; ++i) {
+    for (int i = 0; i < joy_msg.button_size; ++i) {
         if (joy_msg.askForButton(i)) {
-            std::cout << "push the " << button_dic[i] 
-            << std::endl;
+            std::cout << "push the " << button_dic[i] << ": " << joy->buttons[i] << "\t " << joy->axes[i] << "\t " << joy_msg.askForButton(i) << "\t " << joy_msg.askForAxes(i) << std::endl;
+
         } else {
             std::cout << "nopush the " << button_dic[i] << std::endl;
         }
     }
 
-    std::cout << "Axes ListSize: "  << joy->axes.size() << std::endl;
-    std::cout << "Button ListSize: "  << joy->buttons.size() << std::endl;
+    std::cout << "Axes ListSize: " << joy->axes.size() << std::endl;
+    std::cout << "Button ListSize: " << joy->buttons.size() << std::endl;
 }
 
-int main(int argc , char **argv) {
-    ros::init(argc , argv, "explorer_joy_control");
+int main(int argc, char **argv) {
+    ros::init(argc, argv, "explorer_joy_control");
     ros::NodeHandle node;
     button_dic.push_back(std::string("L1"));
     button_dic.push_back(std::string("L2"));
@@ -56,12 +56,8 @@ int main(int argc , char **argv) {
     button_dic.push_back(std::string("left_axes_button"));
     button_dic.push_back(std::string("right_axes_button"));
 
-
-
     ros::Subscriber joy_sub_ =
         node.subscribe<sensor_msgs::Joy>("joy", 2, &joyCallback);
     std::cout << "Successfully subscribe the joy node, 2333" << std::endl;
     ros::spin();
 }
-
-

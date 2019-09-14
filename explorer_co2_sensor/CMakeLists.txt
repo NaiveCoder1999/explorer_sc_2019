@@ -164,7 +164,8 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-add_executable(explorer_co2_sensor src/explorer_co2_sensor.cpp src/explorer_co2_sensor.h)
+add_executable(explorer_co2_sensor src/explorer_co2_sensor.cpp 
+include/explorer_co2_sensor.h)
 target_link_libraries(explorer_co2_sensor ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 # 添加对explorer_msgs的依赖,保证explorer_msgs优先编译

@@ -33,7 +33,7 @@ AgreementMessage RobotDriver::messageToAgreement(int component_id, Message data)
     serial_message.msg.resize(3 + data.size() * 4);
     u_int8_t *explorer_message_ptr = serial_message.msg.data();
     explorer_message_ptr[0] = 0x08;    //0100
-    explorer_message_ptr[1] = (u_int8_t)component_id;
+    explorer_message_ptr[1] = (u_int8_t)component_id;//对应robot_hardware文档中的id
     explorer_message_ptr[2] = 0xE0;    //1110
 
     for (int i = 0; i < data.size(); i++) {
